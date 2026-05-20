@@ -10,6 +10,21 @@
   <meta property="og:description" content="Welche Wohn- und Materialwelt passt zu Ihrem Zuhause? Machen Sie den Stil-Kompass und erhalten Sie Ihr persönliches Stilprofil.">
   <meta property="og:image" content="quiz-assets/moment-wohnen.jpg">
   <meta property="og:locale" content="de_AT">
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '986019473814008');
+  fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
@@ -768,6 +783,154 @@
       font-weight: 700;
     }
 
+    .locked-detail-section {
+      display: grid;
+      gap: 14px;
+      padding-top: 2px;
+    }
+
+    .locked-detail-head {
+      display: grid;
+      gap: 6px;
+    }
+
+    .locked-detail-head h3 {
+      color: var(--black);
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      line-height: 1.05;
+    }
+
+    .locked-detail-head p {
+      max-width: 680px;
+      color: var(--readable);
+      font-size: 0.98rem;
+      font-weight: 400;
+      line-height: 1.62;
+    }
+
+    .locked-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .locked-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      min-height: 220px;
+    }
+
+    .locked-card {
+      position: relative;
+      min-height: 260px;
+      display: grid;
+      align-content: end;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background: var(--black);
+      box-shadow: var(--shadow-tight);
+    }
+
+    .locked-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.78) 100%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.08));
+      z-index: 1;
+    }
+
+    .locked-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.9) contrast(1.02);
+    }
+
+    .locked-card-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      color: var(--cream);
+    }
+
+    .locked-label {
+      width: max-content;
+      max-width: 100%;
+      padding: 5px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.24);
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .locked-card h4 {
+      margin: 0;
+      color: var(--cream);
+      font-family: "Raleway", sans-serif;
+      font-size: clamp(1.2rem, 2.6vw, 1.72rem);
+      font-weight: 650;
+      line-height: 1.05;
+    }
+
+    .locked-blur {
+      position: relative;
+      max-height: 108px;
+      overflow: hidden;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.45;
+      filter: blur(5px);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .locked-blur ul,
+    .locked-blur ol,
+    .locked-blur p {
+      margin: 0;
+      padding-left: 1rem;
+    }
+
+    .locked-blur p {
+      padding-left: 0;
+    }
+
+    .call-note {
+      display: grid;
+      gap: 8px;
+      padding: clamp(18px, 3vw, 24px);
+      border: 1px solid var(--accent-line);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(154, 122, 78, 0.13), rgba(255, 255, 255, 0.88));
+      box-shadow: var(--shadow-tight);
+    }
+
+    .call-note strong {
+      color: var(--black);
+      font-family: "Raleway", sans-serif;
+      font-size: clamp(1.18rem, 2.5vw, 1.55rem);
+      font-weight: 650;
+      line-height: 1.08;
+    }
+
+    .call-note p {
+      color: var(--readable);
+      font-size: 0.98rem;
+      font-weight: 400;
+      line-height: 1.62;
+    }
+
     .result-box {
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -1070,8 +1233,14 @@
       }
 
       .result-grid,
+      .locked-gallery,
       .lead-form {
         grid-template-columns: 1fr;
+      }
+
+      .locked-card,
+      .locked-card:last-child:nth-child(odd) {
+        min-height: 230px;
       }
 
       .form-submit {
@@ -1576,60 +1745,6 @@
       color: var(--good);
     }
 
-    .cookie-consent {
-      position: fixed;
-      right: clamp(14px, 3vw, 28px);
-      bottom: clamp(14px, 3vw, 28px);
-      z-index: 20;
-      width: min(440px, calc(100vw - 28px));
-      padding: 18px;
-      display: none;
-      gap: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: var(--radius);
-      background: rgba(26, 23, 27, 0.96);
-      color: var(--cream);
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
-    }
-
-    .cookie-consent.is-visible {
-      display: grid;
-    }
-
-    .cookie-consent h2 {
-      font-size: 1.05rem;
-      color: var(--cream);
-    }
-
-    .cookie-consent p {
-      color: rgba(255, 255, 255, 0.76);
-      font-size: 0.86rem;
-      line-height: 1.5;
-    }
-
-    .cookie-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .cookie-button {
-      min-height: 42px;
-      padding: 0 14px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: var(--radius-control);
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--cream);
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .cookie-button.primary {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: var(--accent-contrast);
-    }
-
     /* Final mobile QA polish: lighter editorial weight and stable header rows. */
     h1,
     h2,
@@ -1963,6 +2078,9 @@
   </style>
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=986019473814008&ev=PageView&noscript=1"
+  /></noscript>
   <main>
     <section class="screen landing active" id="start" data-screen="start" aria-labelledby="start-title">
       <div class="landing-media" aria-hidden="true">
@@ -2208,50 +2326,66 @@
                     <p data-result-dna></p>
                   </div>
                 </details>
-                <details class="advice-card">
+                <details class="advice-card" open>
                   <summary>Das sollten Sie wählen</summary>
                   <div class="advice-content">
                     <ul data-result-buy></ul>
                   </div>
                 </details>
-                <details class="advice-card">
-                  <summary>Davon eher fernbleiben</summary>
-                  <div class="advice-content">
-                    <ul data-result-avoid></ul>
-                  </div>
-                </details>
-                <details class="advice-card">
-                  <summary>So sollte es am Ende wirken</summary>
-                  <div class="advice-content">
-                    <p data-result-outcome></p>
-                  </div>
-                </details>
-                <details class="advice-card">
-                  <summary>Ihre nächsten Entscheidungen</summary>
-                  <div class="advice-content">
-                    <ol data-result-decisions></ol>
-                  </div>
-                </details>
               </div>
 
-              <div class="result-grid">
-                <article class="result-box">
-                  <h3>Materialrichtung</h3>
-                  <p data-result-material></p>
-                </article>
-                <article class="result-box">
-                  <h3>Darauf achten</h3>
-                  <p data-result-watchout></p>
-                </article>
-                <article class="result-box">
-                  <h3>Was jetzt passiert</h3>
-                  <p data-result-next></p>
-                </article>
-                <article class="result-box">
-                  <h3>Warum Schwaiger dazu passt</h3>
-                  <p data-result-why></p>
-                </article>
-              </div>
+              <section class="locked-detail-section" aria-label="Persönliche Details im Gespräch">
+                <div class="locked-detail-head">
+                  <h3>Die Details schauen wir uns persönlich mit Ihnen an.</h3>
+                  <p>Ein erster Teil Ihres Stilprofils ist freigeschaltet. Die genauere Einordnung zu Material, Wirkung, Planung und möglichen Stolperfallen bespricht das Schwaiger-Team persönlich mit Ihnen.</p>
+                </div>
+                <div class="locked-gallery">
+                  <article class="locked-card">
+                    <img src="quiz-assets/detail-kueche.jpg" alt="" data-locked-image="material">
+                    <div class="locked-card-content">
+                      <span class="locked-label">Im Gespräch</span>
+                      <h4>Materialrichtung</h4>
+                      <p class="locked-blur" data-result-material></p>
+                    </div>
+                  </article>
+                  <article class="locked-card">
+                    <img src="quiz-assets/raum-dach.jpg" alt="" data-locked-image="watchout">
+                    <div class="locked-card-content">
+                      <span class="locked-label">Im Gespräch</span>
+                      <h4>Darauf achten</h4>
+                      <p class="locked-blur" data-result-watchout></p>
+                    </div>
+                  </article>
+                  <article class="locked-card">
+                    <img src="quiz-assets/material-aussicht.jpg" alt="" data-locked-image="avoid">
+                    <div class="locked-card-content">
+                      <span class="locked-label">Im Gespräch</span>
+                      <h4>Davon eher fernbleiben</h4>
+                      <ul class="locked-blur" data-result-avoid></ul>
+                    </div>
+                  </article>
+                  <article class="locked-card">
+                    <img src="quiz-assets/moment-wohnen.jpg" alt="" data-locked-image="outcome">
+                    <div class="locked-card-content">
+                      <span class="locked-label">Im Gespräch</span>
+                      <h4>So sollte es am Ende wirken</h4>
+                      <p class="locked-blur" data-result-outcome></p>
+                    </div>
+                  </article>
+                  <article class="locked-card">
+                    <img src="quiz-assets/klar-geplant.jpg" alt="" data-locked-image="decisions">
+                    <div class="locked-card-content">
+                      <span class="locked-label">Im Gespräch</span>
+                      <h4>Ihre nächsten Entscheidungen</h4>
+                      <ol class="locked-blur" data-result-decisions></ol>
+                    </div>
+                  </article>
+                </div>
+                <div class="call-note">
+                  <strong>Ein Mitarbeiter von Schwaiger meldet sich bei Ihnen.</strong>
+                  <p>Wir gehen Ihr Stilprofil in Ruhe mit Ihnen durch und schauen gemeinsam, was für Ihr Zuhause wirklich Sinn macht: Material, Raumwirkung, nächster Schritt und der passende Rahmen.</p>
+                </div>
+              </section>
 
               <div class="result-actions">
                 <button class="button secondary" type="button" data-back-to-quiz>Antworten anpassen</button>
@@ -2269,24 +2403,10 @@
     </section>
   </main>
 
-  <aside class="cookie-consent" data-cookie-consent aria-labelledby="cookie-consent-title">
-    <div>
-      <h2 id="cookie-consent-title">Cookies und Messung</h2>
-      <p>Wir verwenden notwendige Technik für diese Seite. Mit Ihrer Zustimmung messen wir zusätzlich über Meta, welche Inhalte und Anfragen funktionieren.</p>
-    </div>
-    <div class="cookie-actions">
-      <button class="cookie-button primary" type="button" data-cookie-accept>Marketing erlauben</button>
-      <button class="cookie-button" type="button" data-cookie-decline>Nur notwendig</button>
-    </div>
-  </aside>
-
   <script>
     const LEADTABLE_TABLE_URL = "https://portal.lead-table.com/customer/69cd4dcf0eccf7e8c7da454e/table/69cd4e180eccf7e8c7da4baf";
     // LeadTable Custom Webhook URL goes here. The portal table URL above is not usually the POST endpoint.
     const LEADTABLE_WEBHOOK_URL = "https://api.lead-table.com/api/webhook/generic/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0YWJsZUlEIjoiNjljZDRlMTgwZWNjZjdlOGM3ZGE0YmFmIiwiY3VzdG9tZXJJRCI6IjY5Y2Q0ZGNmMGVjY2Y3ZThjN2RhNDU0ZSIsImFnZW5jeUlEIjoiNjhkN2NhZmRmYTg0OGM3NzgyNmViODg1IiwiaWF0IjoxNzc1MDYyNTUyfQ.9f_zINcytMvEjfnaHa-OXOHLxlaaaFczXumOMUFhuyY";
-    const META_PIXEL_ID = "986019473814008"; // Pixel-ID aus Meta Events Manager.
-    const META_CAPI_ENDPOINT = ""; // Cloudflare Worker / Serverless URL eintragen.
-    const COOKIE_CONSENT_KEY = "schwaiger_marketing_consent";
     const LEADTABLE_FIELD_MAP = {
       name: "vollständiger_name",
       email: "e-mail-adresse",
@@ -2504,7 +2624,6 @@
     const answers = [];
     let current = 0;
     let profileUnlocked = false;
-    let metaPixelReady = false;
 
     const screens = {
       start: document.querySelector('[data-screen="start"]'),
@@ -2520,116 +2639,6 @@
     const captionEl = document.querySelector("[data-image-caption]");
     const progressLabel = document.querySelector("[data-progress-label]");
     const progressFill = document.querySelector("[data-progress-fill]");
-
-    function getMarketingConsent() {
-      return localStorage.getItem(COOKIE_CONSENT_KEY) === "granted";
-    }
-
-    function setMarketingConsent(value) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, value ? "granted" : "denied");
-    }
-
-    function getCookieValue(name) {
-      return document.cookie
-        .split("; ")
-        .find((row) => row.startsWith(`${name}=`))
-        ?.split("=")
-        .slice(1)
-        .join("=") || "";
-    }
-
-    function createEventId(eventName) {
-      if (window.crypto?.randomUUID) {
-        return `${eventName}.${window.crypto.randomUUID()}`;
-      }
-      return `${eventName}.${Date.now()}.${Math.random().toString(16).slice(2)}`;
-    }
-
-    function initMetaPixel() {
-      if (metaPixelReady || !META_PIXEL_ID || !getMarketingConsent()) return;
-      (function(f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function() {
-          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = true;
-        n.version = "2.0";
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = true;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
-      fbq("init", META_PIXEL_ID);
-      metaPixelReady = true;
-    }
-
-    async function sendCapiEvent(eventName, eventId, customData = {}, userData = {}) {
-      if (!META_CAPI_ENDPOINT || !getMarketingConsent()) return;
-      const payload = {
-        event_name: eventName,
-        event_id: eventId,
-        event_source_url: window.location.href,
-        user_data: {
-          fbp: getCookieValue("_fbp"),
-          fbc: getCookieValue("_fbc"),
-          ...userData
-        },
-        custom_data: customData
-      };
-
-      try {
-        await fetch(META_CAPI_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          keepalive: true
-        });
-      } catch (error) {
-        console.warn("Meta CAPI event failed", error);
-      }
-    }
-
-    function trackMetaEvent(eventName, customData = {}, userData = {}) {
-      if (!getMarketingConsent()) return "";
-      initMetaPixel();
-      const eventId = createEventId(eventName);
-      if (window.fbq && META_PIXEL_ID) {
-        fbq("track", eventName, customData, { eventID: eventId });
-      }
-      sendCapiEvent(eventName, eventId, customData, userData);
-      return eventId;
-    }
-
-    function initCookieConsent() {
-      const banner = document.querySelector("[data-cookie-consent]");
-      const storedConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
-      if (!banner) return;
-
-      if (!storedConsent) {
-        banner.classList.add("is-visible");
-      }
-
-      document.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
-        setMarketingConsent(true);
-        banner.classList.remove("is-visible");
-        initMetaPixel();
-        trackMetaEvent("PageView", { content_name: "Schwaiger Stil-Kompass" });
-      });
-
-      document.querySelector("[data-cookie-decline]")?.addEventListener("click", () => {
-        setMarketingConsent(false);
-        banner.classList.remove("is-visible");
-      });
-
-      if (getMarketingConsent()) {
-        initMetaPixel();
-        trackMetaEvent("PageView", { content_name: "Schwaiger Stil-Kompass" });
-      }
-    }
 
     function showScreen(name) {
       Object.values(screens).forEach((screen) => screen.classList.remove("active"));
@@ -2738,11 +2747,6 @@
         return;
       }
       renderResult();
-      trackMetaEvent("ViewContent", {
-        content_name: "Stilprofil Ergebnis",
-        content_category: "Stil-Kompass",
-        content_type: "quiz_result"
-      });
       showScreen("result");
     }
 
@@ -2800,6 +2804,7 @@
 
     function renderItems(selector, items) {
       const list = document.querySelector(selector);
+      if (!list) return;
       list.innerHTML = "";
       items.forEach((item) => {
         const li = document.createElement("li");
@@ -2808,21 +2813,28 @@
       });
     }
 
+    function setText(selector, value) {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.textContent = value;
+      }
+    }
+
     function renderResult(forceType) {
       const state = forceType ? { winner: forceType, fit: 10, score: 12, band: "B", stage: "preview", value: "preview", situation: "preview", budget: "preview", timeline: "preview", archetypes: {} } : classify();
       const result = results[state.winner];
       const fitMeta = getFitMeta(state.band);
       latestResultState = state;
       latestResultProfile = result;
-      document.querySelector("[data-result-kicker]").textContent = result.kicker;
-      document.querySelector("[data-result-title]").textContent = result.title;
-      document.querySelector("[data-result-lede]").textContent = result.lede;
-      document.querySelector("[data-result-material]").textContent = result.material;
-      document.querySelector("[data-result-watchout]").textContent = result.watchout;
-      document.querySelector("[data-result-next]").textContent = result.next;
-      document.querySelector("[data-result-why]").textContent = result.why;
-      document.querySelector("[data-result-dna]").textContent = result.dna;
-      document.querySelector("[data-result-outcome]").textContent = result.outcome;
+      setText("[data-result-kicker]", result.kicker);
+      setText("[data-result-title]", result.title);
+      setText("[data-result-lede]", result.lede);
+      setText("[data-result-material]", result.material);
+      setText("[data-result-watchout]", result.watchout);
+      setText("[data-result-next]", result.next);
+      setText("[data-result-why]", result.why);
+      setText("[data-result-dna]", result.dna);
+      setText("[data-result-outcome]", result.outcome);
       renderItems("[data-result-buy]", result.buy);
       renderItems("[data-result-avoid]", result.avoid);
       renderItems("[data-result-decisions]", result.decisions);
@@ -2842,6 +2854,16 @@
         <span class="fit-chip ${state.band === "A" ? "good" : state.band === "B" || state.band === "C" ? "maybe" : "quiet"}">Lead ${state.band}: ${fitMeta.label}</span>
         <span class="fit-chip maybe">intern sichtbar</span>
       `;
+    }
+
+
+    function trackMetaLead() {
+      if (typeof fbq !== "function") return;
+      fbq('track', 'Lead', {
+        content_name: latestResultProfile?.title || 'Schwaiger Stil-Kompass',
+        content_category: 'Stil-Kompass',
+        lead_type: latestResultState?.band || ''
+      });
     }
 
     function unlockProfile() {
@@ -2894,7 +2916,6 @@
           timing: latestResultState?.timeline || "",
           quiz_antworten: quizAnswers,
           einwilligung: values.consent ? "ja" : "nein",
-          marketing_einwilligung: getMarketingConsent() ? "ja" : "nein",
           einwilligung_zeitpunkt: new Date().toISOString(),
           seiten_url: window.location.href,
           referrer: document.referrer || "",
@@ -2919,7 +2940,6 @@
         return;
       }
       const payload = buildLeadPayload(new FormData(form));
-      const values = Object.fromEntries([...new FormData(form).entries()].map(([key, value]) => [key, typeof value === "string" ? value.trim() : value]));
 
       setStatus("Einen Moment, Ihr Stilprofil wird vorbereitet.", "loading");
       submitButton.disabled = true;
@@ -2927,6 +2947,7 @@
       if (!LEADTABLE_WEBHOOK_URL) {
         console.info("LeadTable payload ready:", payload);
         unlockProfile();
+        trackMetaLead();
         submitButton.disabled = false;
         return;
       }
@@ -2943,16 +2964,7 @@
         }
 
         unlockProfile();
-        trackMetaEvent("Lead", {
-          content_name: latestResultProfile?.title || "Stil-Kompass Lead",
-          content_category: "Schwaiger Stil-Kompass",
-          lead_type: latestResultState?.band || "",
-          status: "lead_submitted"
-        }, {
-          em: values.email || "",
-          ph: values.phone || "",
-          zp: values.postalCode || ""
-        });
+        trackMetaLead();
         form.reset();
       } catch (error) {
         console.error(error);
@@ -2966,11 +2978,6 @@
       current = 0;
       answers.length = 0;
       renderQuestion();
-      trackMetaEvent("ViewContent", {
-        content_name: "Stil-Kompass Quiz Start",
-        content_category: "Quiz",
-        content_type: "quiz_start"
-      });
       showScreen("quiz");
     }));
 
@@ -2996,7 +3003,6 @@
     document.querySelector("[data-lead-form]").addEventListener("submit", submitLead);
 
     renderQuestion();
-    initCookieConsent();
 
     if (window.location.hash === "#quiz") {
       showScreen("quiz");
