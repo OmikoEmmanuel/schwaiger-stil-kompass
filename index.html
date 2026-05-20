@@ -2442,7 +2442,7 @@
   <aside class="cookie-consent" data-cookie-consent aria-label="Cookie-Einstellungen">
     <div>
       <h2>Marketing-Cookies?</h2>
-      <p>Wir nutzen Meta Pixel nur, wenn Sie Marketing erlauben. So können wir sehen, welche Anzeigen hilfreich sind.</p>
+      <p>Wir nutzen Meta Pixel und Microsoft Clarity nur, wenn Sie Marketing erlauben. So können wir sehen, welche Anzeigen und Seitenbereiche hilfreich sind.</p>
     </div>
     <div class="cookie-actions">
       <button class="cookie-button primary" type="button" data-cookie-accept>Marketing erlauben</button>
@@ -2452,8 +2452,10 @@
 
   <script>
     const META_PIXEL_ID = "986019473814008";
+    const CLARITY_PROJECT_ID = "wu7xvjc5a7";
     const COOKIE_CONSENT_KEY = "schwaiger_marketing_consent";
     let metaPixelReady = false;
+    let clarityReady = false;
     const LEADTABLE_TABLE_URL = "https://portal.lead-table.com/customer/69cd4dcf0eccf7e8c7da454e/table/69cd4e180eccf7e8c7da4baf";
     // LeadTable Custom Webhook URL goes here. The portal table URL above is not usually the POST endpoint.
     const LEADTABLE_WEBHOOK_URL = "https://api.lead-table.com/api/webhook/generic/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0YWJsZUlEIjoiNjljZDRlMTgwZWNjZjdlOGM3ZGE0YmFmIiwiY3VzdG9tZXJJRCI6IjY5Y2Q0ZGNmMGVjY2Y3ZThjN2RhNDU0ZSIsImFnZW5jeUlEIjoiNjhkN2NhZmRmYTg0OGM3NzgyNmViODg1IiwiaWF0IjoxNzc1MDYyNTUyfQ.9f_zINcytMvEjfnaHa-OXOHLxlaaaFczXumOMUFhuyY";
@@ -2501,9 +2503,29 @@
       metaPixelReady = true;
     }
 
+    function initMicrosoftClarity() {
+      if (clarityReady || !CLARITY_PROJECT_ID || !getMarketingConsent()) return;
+      (function(c, l, a, r, i, t, y) {
+        c[a] = c[a] || function() {
+          (c[a].q = c[a].q || []).push(arguments);
+        };
+        t = l.createElement(r);
+        t.async = true;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
+      clarityReady = true;
+    }
+
+    function initMarketingTracking() {
+      initMetaPixel();
+      initMicrosoftClarity();
+    }
+
     function trackMetaEvent(eventName, customData = {}) {
       if (!getMarketingConsent()) return "";
-      initMetaPixel();
+      initMarketingTracking();
       const eventId = createEventId(eventName);
       if (window.fbq && META_PIXEL_ID) {
         fbq("track", eventName, customData, { eventID: eventId });
