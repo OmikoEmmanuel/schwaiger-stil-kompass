@@ -10,6 +10,8 @@
   <meta property="og:description" content="Welche Wohn- und Materialwelt passt zu Ihrem Zuhause? Machen Sie den Stil-Kompass und erhalten Sie Ihr persönliches Stilprofil.">
   <meta property="og:image" content="quiz-assets/moment-wohnen.jpg">
   <meta property="og:locale" content="de_AT">
+  <link rel="icon" type="image/png" href="quiz-assets/favicon.png">
+  <link rel="apple-touch-icon" href="quiz-assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
@@ -2049,18 +2051,22 @@
 
     .cookie-consent {
       position: fixed;
-      right: clamp(14px, 3vw, 28px);
-      bottom: clamp(14px, 3vw, 28px);
+      top: clamp(84px, 12vh, 132px);
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 50;
-      width: min(440px, calc(100vw - 28px));
-      padding: 18px;
+      width: min(760px, calc(100vw - 32px));
+      padding: clamp(22px, 3vw, 32px);
       display: none;
-      gap: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: clamp(18px, 3vw, 32px);
+      border: 1px solid rgba(255, 255, 255, 0.24);
       border-radius: var(--radius);
-      background: rgba(26, 23, 27, 0.96);
+      background: rgba(26, 23, 27, 0.98);
       color: var(--cream);
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 28px 88px rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(18px);
     }
 
     .cookie-consent.is-visible {
@@ -2068,37 +2074,51 @@
     }
 
     .cookie-consent h2 {
-      font-size: 1.05rem;
+      font-size: clamp(1.24rem, 2vw, 1.72rem);
       color: var(--cream);
     }
 
     .cookie-consent p {
-      color: rgba(255, 255, 255, 0.76);
-      font-size: 0.86rem;
+      max-width: 54ch;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: clamp(0.94rem, 1.1vw, 1.04rem);
       line-height: 1.5;
     }
 
     .cookie-actions {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
       gap: 10px;
     }
 
     .cookie-button {
-      min-height: 42px;
-      padding: 0 14px;
+      min-height: 48px;
+      padding: 0 18px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: var(--radius-control);
       background: rgba(255, 255, 255, 0.08);
       color: var(--cream);
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .cookie-button.primary {
       border-color: var(--accent);
       background: var(--accent);
       color: var(--accent-contrast);
+    }
+
+    @media (max-width: 720px) {
+      .cookie-consent {
+        top: auto;
+        bottom: 14px;
+        grid-template-columns: 1fr;
+        align-items: stretch;
+      }
+
+      .cookie-actions {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2222,7 +2242,7 @@
               </div>
               <div class="how-card">
                 <strong>3. Profil erhalten</strong>
-                <span>Nach dem Formular wird Ihr Stilprofil freigeschaltet.</span>
+                <span>Nach dem Formular sehen Sie Ihr Kurzprofil. Die Details bespricht Schwaiger persönlich im 15-Minuten-Gespräch mit Ihnen.</span>
               </div>
             </div>
           </div>
@@ -2306,7 +2326,7 @@
           <div class="result-copy">
             <section class="lead-gate lead-form-card" aria-labelledby="lead-form-title">
               <h3 id="lead-form-title">Wie schön, dass Sie den Stil-Kompass gemacht haben.</h3>
-              <p>Ihr Stilprofil ist bereit. Hinterlassen Sie kurz Ihre Daten, dann schicken wir Ihre Antworten an Schwaiger und zeigen Ihnen direkt danach Ihr persönliches Ergebnis.</p>
+              <p>Ihr Stilprofil ist bereit. Hinterlassen Sie kurz Ihre Daten, dann schicken wir Ihre Antworten an Schwaiger. Direkt danach sehen Sie Ihr Kurzprofil. Die genauere Einordnung zu Material, Planung und nächsten Schritten bespricht Schwaiger persönlich im 15-Minuten-Gespräch mit Ihnen.</p>
               <div class="result-proof">
                 <span class="trust-badge">Persönliche Rückmeldung</span>
                 <span class="trust-badge">Kostenlos und unverbindlich</span>
