@@ -1,0 +1,2800 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schwaiger Stil-Kompass</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #000000;
+      --ink: #1A171B;
+      --soft-black: #222222;
+      --neutral: #787878;
+      --muted: #707070;
+      --readable: #454545;
+      --readable-strong: #303030;
+      --line: rgba(0, 0, 0, 0.1);
+      --warm: #F2F2F2;
+      --cream: #FFFFFF;
+      --stone: #B7B7B7;
+      --surface: #F7F7F7;
+      --surface-raised: rgba(255, 255, 255, 0.72);
+      --surface-hover: #FFFFFF;
+      --accent: #9A7A4E;
+      --accent-contrast: #FFFFFF;
+      --accent-soft: rgba(154, 122, 78, 0.16);
+      --accent-line: rgba(154, 122, 78, 0.34);
+      --focus: rgba(154, 122, 78, 0.48);
+      --good: #145a32;
+      --maybe: #595959;
+      --quiet: #83191c;
+      --shadow: 0 18px 44px rgba(0, 0, 0, 0.1);
+      --shadow-tight: 0 8px 24px rgba(0, 0, 0, 0.07);
+      --page-max: 1040px;
+      --page-gutter: clamp(28px, 6vw, 96px);
+      --radius: 6px;
+      --radius-control: 2px;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--warm);
+      color: var(--ink);
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Raleway", sans-serif;
+      font-weight: 650;
+      letter-spacing: 0;
+      line-height: 1.08;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .screen {
+      min-height: 100vh;
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .landing {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--warm);
+      background: var(--black);
+    }
+
+    .landing-media {
+      position: absolute;
+      inset: 0;
+    }
+
+    .landing-media img {
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.95) contrast(1.04);
+    }
+
+    .landing::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.58) 48%, rgba(0, 0, 0, 0.22) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.44) 100%);
+    }
+
+    .landing-inner {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2)));
+      margin: 0 auto;
+      display: grid;
+      align-content: center;
+      gap: 20px;
+      padding: 56px 0 88px;
+    }
+
+    .brand-line {
+      width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2)));
+      margin: 0 auto;
+      position: absolute;
+      z-index: 2;
+      top: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 0.78rem;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-line span:last-child {
+      text-align: right;
+      opacity: 0.76;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark img,
+    .topbar-logo img {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .trust-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .stars {
+      color: #ffffff;
+      letter-spacing: 0.06em;
+      font-size: 1rem;
+    }
+
+    .eyebrow {
+      max-width: max-content;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 0.78rem;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .landing h1 {
+      max-width: 760px;
+      font-size: clamp(3rem, 7.2vw, 6.7rem);
+      font-weight: 650;
+      line-height: 1;
+      color: var(--cream);
+      text-wrap: balance;
+    }
+
+    .landing-copy {
+      display: grid;
+      gap: 14px;
+      max-width: 560px;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: clamp(1rem, 1.45vw, 1.18rem);
+      font-weight: 500;
+    }
+
+    .landing-proof {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.72fr);
+      gap: 16px;
+      align-items: stretch;
+      max-width: 860px;
+    }
+
+    .proof-card,
+    .testimonial-card {
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: var(--radius);
+      background: rgba(0, 0, 0, 0.46);
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(16px);
+    }
+
+    .proof-card {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .proof-item {
+      border-left: 1px solid rgba(255, 255, 255, 0.32);
+      padding-left: 12px;
+    }
+
+    .proof-item strong {
+      display: block;
+      color: var(--cream);
+      font-family: "Raleway", sans-serif;
+      font-size: 1.02rem;
+      line-height: 1.12;
+    }
+
+    .proof-item span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .benefit-list {
+      display: grid;
+      gap: 8px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 0.96rem;
+    }
+
+    .benefit-list li {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .benefit-list li::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      margin-top: 9px;
+      border-radius: 50%;
+      background: var(--cream);
+    }
+
+    .testimonial-card {
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 120px 1fr;
+    }
+
+    .testimonial-card img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center 43%;
+      filter: saturate(0.96);
+    }
+
+    .testimonial-body {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .testimonial-body blockquote {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.94rem;
+      font-weight: 500;
+      line-height: 1.48;
+    }
+
+    .testimonial-body figcaption {
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 760px;
+    }
+
+    .trust-badge {
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: var(--radius-control);
+      padding: 7px 10px 6px;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .button {
+      min-height: 50px;
+      border: 1px solid var(--black);
+      border-radius: var(--radius-control);
+      padding: 14px 24px 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-family: "Raleway", sans-serif;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: var(--soft-black);
+      color: var(--accent-contrast);
+    }
+
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: 0.58;
+      transform: none;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: var(--warm);
+    }
+
+    .button.secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .result-actions .button.secondary {
+      border-color: rgba(0, 0, 0, 0.24);
+      background: transparent;
+      color: var(--black);
+    }
+
+    .result-actions .button.secondary:hover {
+      border-color: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .button.dark {
+      background: var(--accent);
+      color: var(--accent-contrast);
+    }
+
+    .button.dark:hover {
+      background: var(--soft-black);
+      color: var(--cream);
+    }
+
+    .landing-actions,
+    .nav-actions,
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .screen-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      background:
+        linear-gradient(145deg, rgba(0, 0, 0, 0.055), transparent 36%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.18)),
+        var(--warm);
+    }
+
+    .topbar {
+      width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2)));
+      margin: 0 auto;
+      padding: 28px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo-text {
+      color: var(--black);
+      font-size: 0.76rem;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .topbar-logo img {
+      width: 120px;
+      filter: invert(1);
+    }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: min(360px, 42vw);
+    }
+
+    .progress-label {
+      color: var(--muted);
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 5px;
+      overflow: hidden;
+      border-radius: var(--radius-control);
+      background: rgba(0, 0, 0, 0.13);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 12.5%;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width 240ms ease;
+    }
+
+    .quiz-layout {
+      width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2)));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.64fr);
+      gap: clamp(24px, 4vw, 46px);
+      align-items: center;
+      padding: 12px 0 52px;
+      overflow: hidden;
+    }
+
+    .question-panel {
+      display: grid;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    .question-kicker {
+      color: var(--soft-black);
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+    }
+
+    .question-panel h2 {
+      max-width: 720px;
+      color: var(--black);
+      font-size: clamp(2.15rem, 4.4vw, 4.45rem);
+      line-height: 0.98;
+    }
+
+    .question-help {
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .answer {
+      width: 100%;
+      max-width: 100%;
+      min-height: 60px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-control);
+      padding: 15px 16px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      background: var(--surface-raised);
+      color: var(--ink);
+      text-align: left;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+      overflow-wrap: anywhere;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .answer:hover,
+    .answer.selected {
+      border-color: var(--accent-line);
+      background: var(--surface-hover);
+      box-shadow: inset 4px 0 0 var(--accent), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+      transform: translateY(-1px);
+    }
+
+    .answer strong {
+      display: block;
+      font-size: clamp(1rem, 1.4vw, 1.12rem);
+      line-height: 1.25;
+    }
+
+    .answer span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.35;
+    }
+
+    .answer::after {
+      content: "";
+      flex: 0 0 11px;
+      width: 11px;
+      height: 11px;
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+      transform: rotate(45deg);
+      opacity: 0.45;
+    }
+
+    .quiz-image {
+      position: relative;
+      z-index: 0;
+      min-height: min(680px, 72vh);
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-tight);
+      background: var(--cream);
+    }
+
+    .quiz-image img {
+      height: 100%;
+      min-height: inherit;
+      object-fit: cover;
+    }
+
+    .image-caption {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      padding: 13px 14px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.27);
+      border-radius: var(--radius);
+      background: rgba(0, 0, 0, 0.54);
+      color: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(14px);
+      font-size: 0.9rem;
+    }
+
+    .nav-actions {
+      margin-top: 6px;
+    }
+
+    .text-button {
+      min-height: 44px;
+      border: 0;
+      padding: 10px 0;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .text-button:hover {
+      color: var(--black);
+    }
+
+    .result-layout {
+      width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2)));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.88fr) minmax(300px, 0.62fr);
+      gap: clamp(24px, 4vw, 48px);
+      align-items: start;
+      padding: 14px 0 56px;
+      overflow: hidden;
+    }
+
+    .result-copy {
+      display: grid;
+      gap: 18px;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .result-copy h2 {
+      color: var(--black);
+      font-size: clamp(2.2rem, 4.7vw, 4.85rem);
+      line-height: 0.98;
+      overflow-wrap: anywhere;
+    }
+
+    .result-lede {
+      color: var(--readable);
+      font-size: clamp(1rem, 1.25vw, 1.12rem);
+      font-weight: 400;
+      line-height: 1.68;
+      max-width: 600px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .result-advice {
+      display: grid;
+      gap: 12px;
+    }
+
+    .advice-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.72) inset;
+      overflow: hidden;
+    }
+
+    .advice-card summary {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 15px 16px;
+      color: var(--black);
+      font-family: "Raleway", sans-serif;
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      font-weight: 650;
+      line-height: 1.08;
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .advice-card summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .advice-card summary::after {
+      content: "+";
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid var(--accent-line);
+      border-radius: 999px;
+      color: var(--accent);
+      font-family: "Montserrat", sans-serif;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .advice-card[open] summary::after {
+      content: "–";
+    }
+
+    .advice-content {
+      display: grid;
+      gap: 12px;
+      padding: 0 16px 16px;
+      color: var(--readable);
+      font-size: 0.98rem;
+      font-weight: 400;
+      line-height: 1.58;
+      overflow-wrap: anywhere;
+    }
+
+    .advice-content p,
+    .advice-content ul,
+    .advice-content ol {
+      margin: 0;
+    }
+
+    .advice-content ul,
+    .advice-content ol {
+      display: grid;
+      gap: 8px;
+      padding-left: 1.05rem;
+    }
+
+    .advice-content li::marker {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .result-box {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: var(--surface-raised);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.72) inset;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+    }
+
+    .result-box h3 {
+      margin-bottom: 10px;
+      color: var(--black);
+      font-size: 1.5rem;
+      line-height: 1.05;
+    }
+
+    .result-box p {
+      color: var(--readable);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.62;
+      overflow-wrap: anywhere;
+    }
+
+    .result-image {
+      position: sticky;
+      top: 22px;
+      z-index: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-tight);
+      background: var(--cream);
+      max-width: 100%;
+    }
+
+    .result-image img {
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+    }
+
+    .lead-form-card {
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      border-radius: var(--radius);
+      padding: clamp(18px, 2vw, 22px);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow-tight);
+      max-width: 100%;
+    }
+
+    .lead-form-card::before,
+    .profile-hero::before {
+      content: "";
+      display: block;
+      width: 72px;
+      height: 3px;
+      margin-bottom: 14px;
+      background: var(--accent);
+    }
+
+    .lead-gate-image {
+      margin: 16px 0 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #deded9;
+      box-shadow: var(--shadow-tight);
+    }
+
+    .lead-gate-image img {
+      aspect-ratio: 16 / 8.6;
+      object-fit: cover;
+      object-position: center 48%;
+    }
+
+    .lead-gate-image figcaption {
+      padding: 11px 13px 10px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--readable);
+      font-size: 0.88rem;
+      line-height: 1.42;
+    }
+
+    .lead-form-card h3 {
+      color: var(--black);
+      font-size: clamp(1.55rem, 2.4vw, 2.15rem);
+      line-height: 1.05;
+    }
+
+    .lead-form-card p {
+      margin-top: 8px;
+      color: var(--readable);
+      font-weight: 400;
+      line-height: 1.58;
+      max-width: 56ch;
+    }
+
+    .result-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .result-proof .trust-badge {
+      border-color: var(--accent-line);
+      background: var(--accent-soft);
+      color: var(--readable-strong);
+    }
+
+    .lead-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .form-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-field label {
+      color: var(--black);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .form-field input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-control);
+      padding: 12px 13px 10px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .form-field input::placeholder {
+      color: rgba(112, 112, 112, 0.75);
+    }
+
+    .form-note {
+      grid-column: 1 / -1;
+      color: var(--readable-strong);
+      font-size: 0.88rem;
+      font-weight: 400;
+    }
+
+    .form-status {
+      grid-column: 1 / -1;
+      min-height: 22px;
+      color: var(--good);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .form-submit {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+
+    .internal-note {
+      display: none;
+      max-width: 650px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .internal-note summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .internal-note p {
+      margin-top: 10px;
+    }
+
+    .fit-chip {
+      display: inline-flex;
+      margin: 8px 8px 0 0;
+      border-radius: 999px;
+      padding: 6px 10px 5px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .fit-chip.good {
+      background: var(--good);
+    }
+
+    .fit-chip.maybe {
+      background: var(--maybe);
+    }
+
+    .fit-chip.quiet {
+      background: var(--quiet);
+    }
+
+    @media (max-width: 920px) {
+      .brand-line span:last-child {
+        display: none;
+      }
+
+      .landing-proof {
+        grid-template-columns: 1fr;
+        max-width: 640px;
+      }
+
+      .quiz-layout,
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-image {
+        min-height: 260px;
+      }
+
+      .image-caption {
+        position: static;
+        border: 0;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--readable);
+        backdrop-filter: none;
+      }
+
+      .result-image {
+        position: relative;
+        top: auto;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .progress-wrap {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 620px) {
+      :root {
+        --page-gutter: 20px;
+      }
+
+      .landing-inner,
+      .quiz-layout,
+      .result-layout {
+        width: min(100% - 32px, var(--page-max));
+      }
+
+      .landing h1 {
+        font-size: clamp(2.2rem, 10.8vw, 3.35rem);
+        line-height: 1.03;
+      }
+
+      .question-panel h2,
+      .result-copy h2 {
+        font-size: clamp(2.05rem, 10.5vw, 3.6rem);
+      }
+
+      .answer {
+        align-items: flex-start;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .answer::after {
+        margin-top: 7px;
+      }
+
+      .landing-actions,
+      .result-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .brand-mark img {
+        width: 118px;
+      }
+
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .testimonial-card {
+        grid-template-rows: 150px 1fr;
+      }
+
+      .result-grid,
+      .lead-form {
+        grid-template-columns: 1fr;
+      }
+
+      .form-submit {
+        justify-self: stretch;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    /* Mobile-first QA refit: calmer typography, scrollable trust page, gated profile. */
+    body {
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 650;
+      line-height: 1.08;
+    }
+
+    .landing {
+      min-height: 100vh;
+      overflow: visible;
+      background: #f3f3f1;
+      color: var(--ink);
+    }
+
+    .landing-media,
+    .landing::after {
+      display: none;
+    }
+
+    .brand-line {
+      position: sticky;
+      top: 0;
+      left: auto;
+      transform: none;
+      width: 100%;
+      max-width: none;
+      padding: 12px max(16px, calc((100vw - var(--page-max)) / 2)) 11px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--black);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand-mark {
+      padding: 8px 12px;
+      border-radius: 2px;
+      background: transparent;
+    }
+
+    .brand-mark img {
+      width: 122px;
+      filter: invert(1);
+    }
+
+    .header-cta {
+      min-height: 40px;
+      border: 1px solid var(--black);
+      border-radius: var(--radius-control);
+      padding: 10px 14px 9px;
+      background: var(--black);
+      color: var(--cream);
+      font-family: "Raleway", sans-serif;
+      font-size: 0.86rem;
+      font-weight: 650;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .landing-inner {
+      min-height: auto;
+      align-content: start;
+      gap: 22px;
+      padding: 34px 0 58px;
+    }
+
+    .hero-panel {
+      display: grid;
+      gap: 18px;
+      max-width: 680px;
+      padding: 22px 0 10px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .landing h1 {
+      max-width: 720px;
+      color: var(--black);
+      font-size: clamp(2.35rem, 9.2vw, 5.2rem);
+      font-weight: 650;
+      line-height: 1;
+    }
+
+    .landing-copy {
+      max-width: 590px;
+      gap: 9px;
+      color: var(--readable);
+      font-size: clamp(1rem, 2.2vw, 1.16rem);
+      font-weight: 400;
+      line-height: 1.65;
+    }
+
+    .landing-actions {
+      align-items: center;
+    }
+
+    .landing-actions .button {
+      background: var(--accent);
+      color: var(--cream);
+      box-shadow: none;
+    }
+
+    .landing-actions .button:hover {
+      background: #7f633e;
+    }
+
+    .trust-ticker {
+      width: min(100%, 680px);
+      overflow: hidden;
+      border: 1px solid var(--accent-line);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 10px 28px rgba(154, 122, 78, 0.1);
+    }
+
+    .trust-ticker-track {
+      display: flex;
+      width: max-content;
+      animation: trust-scroll 28s linear infinite;
+    }
+
+    .trust-ticker-set {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      white-space: nowrap;
+    }
+
+    .trust-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(154, 122, 78, 0.24);
+      border-radius: 999px;
+      padding: 7px 11px 6px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--readable-strong);
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .trust-pill .stars {
+      color: var(--accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+    }
+
+    @keyframes trust-scroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .micro-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 680px;
+    }
+
+    .micro-proof span,
+    .trust-badge {
+      border: 1px solid rgba(154, 122, 78, 0.22);
+      border-radius: 2px;
+      padding: 7px 10px 6px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--readable-strong);
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .landing-proof {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      max-width: 100%;
+      padding-top: 18px;
+    }
+
+    .proof-card,
+    .testimonial-card,
+    .how-card {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      box-shadow: var(--shadow-tight);
+      backdrop-filter: none;
+    }
+
+    .proof-card {
+      padding: clamp(18px, 4.6vw, 28px);
+    }
+
+    .proof-section-title {
+      display: grid;
+      gap: 8px;
+      max-width: 620px;
+      margin-bottom: 16px;
+    }
+
+    .proof-section-title h2 {
+      color: var(--black);
+      font-size: clamp(1.85rem, 7vw, 3.2rem);
+    }
+
+    .proof-section-title p {
+      color: var(--readable);
+      line-height: 1.62;
+    }
+
+    .proof-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .proof-item {
+      border-left-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .proof-item strong {
+      color: var(--black);
+      font-size: 1.05rem;
+      font-weight: 650;
+    }
+
+    .proof-item span,
+    .testimonial-body figcaption {
+      color: var(--readable);
+    }
+
+    .benefit-list {
+      color: var(--readable-strong);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .benefit-list li::before {
+      background: var(--accent);
+    }
+
+    .testimonial-rail {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(260px, 1fr);
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .testimonial-card {
+      grid-template-rows: auto;
+      min-height: 170px;
+      overflow: hidden;
+      scroll-snap-align: start;
+    }
+
+    .testimonial-card.with-image {
+      grid-template-rows: 140px 1fr;
+    }
+
+    .testimonial-card img {
+      object-position: center 45%;
+    }
+
+    .testimonial-body blockquote {
+      color: var(--ink);
+      font-size: 0.98rem;
+      font-weight: 450;
+      line-height: 1.55;
+    }
+
+    .stars {
+      color: var(--black);
+      font-size: 0.92rem;
+    }
+
+    .trust-kicker {
+      color: var(--readable-strong);
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .how-card {
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .how-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--black);
+      font-family: "Raleway", sans-serif;
+      font-size: 1.1rem;
+      font-weight: 650;
+    }
+
+    .how-card span {
+      color: var(--readable);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      width: 100%;
+      max-width: none;
+      padding: 12px max(16px, calc((100vw - var(--page-max)) / 2)) 11px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar-logo img {
+      width: 104px;
+    }
+
+    .logo-text,
+    .progress-label {
+      font-weight: 500;
+    }
+
+    .question-panel h2,
+    .result-copy h2 {
+      font-weight: 650;
+    }
+
+    .answer strong,
+    .button,
+    .text-button,
+    .form-field label {
+      font-weight: 650;
+    }
+
+    .lead-gate,
+    .profile-view {
+      display: grid;
+      gap: 18px;
+    }
+
+    .profile-view {
+      display: none;
+    }
+
+    #result.profile-unlocked .lead-gate {
+      display: none;
+    }
+
+    #result.profile-unlocked .profile-view {
+      display: grid;
+    }
+
+    .result-layout {
+      grid-template-columns: 1fr;
+      max-width: 920px;
+    }
+
+    .result-image {
+      position: relative;
+      top: auto;
+      max-height: 460px;
+    }
+
+    .result-image img {
+      aspect-ratio: 16 / 10;
+    }
+
+    .profile-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      padding: clamp(18px, 4.5vw, 28px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow-tight);
+    }
+
+    .profile-hero .result-image {
+      box-shadow: none;
+    }
+
+    .lead-form-card h3,
+    .result-box h3 {
+      font-weight: 650;
+    }
+
+    @media (min-width: 760px) {
+      .landing-inner {
+        padding-top: 62px;
+      }
+
+      .proof-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .landing-proof {
+        gap: 22px;
+      }
+
+      .profile-hero {
+        grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.65fr);
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .brand-line {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .brand-mark img {
+        width: 104px;
+      }
+
+      .header-cta {
+        min-height: 38px;
+        padding-inline: 10px;
+        font-size: 0.78rem;
+      }
+
+      .landing-inner {
+        padding-top: 24px;
+      }
+
+      .testimonial-rail {
+        margin-left: -16px;
+        margin-right: -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .how-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-image {
+        min-height: 210px;
+      }
+    }
+
+    .form-consent {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: var(--readable);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .form-consent input {
+      width: 18px;
+      height: 18px;
+      margin: 2px 0 0;
+    }
+
+    .form-status.is-error {
+      color: #8d1f1f;
+    }
+
+    .form-status.is-loading {
+      color: var(--maybe);
+    }
+
+    .form-status.is-success {
+      color: var(--good);
+    }
+
+    /* Final mobile QA polish: lighter editorial weight and stable header rows. */
+    h1,
+    h2,
+    h3,
+    .landing h1,
+    .question-panel h2,
+    .result-copy h2,
+    .proof-section-title h2 {
+      font-weight: 560;
+    }
+
+    .button,
+    .header-cta,
+    .text-button,
+    .answer strong,
+    .form-field label,
+    .how-card strong,
+    .proof-item strong,
+    .lead-form-card h3,
+    .result-box h3 {
+      font-weight: 600;
+    }
+
+    .landing h1 {
+      max-width: 680px;
+      letter-spacing: 0;
+    }
+
+    .topbar {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .topbar-logo {
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .topbar > .text-button {
+      width: auto;
+      flex: 0 0 auto;
+      min-height: 38px;
+      padding: 8px 0;
+      white-space: nowrap;
+    }
+
+    .progress-wrap {
+      flex: 1 1 180px;
+      min-width: 0;
+    }
+
+    .quiz-image,
+    .result-image,
+    .profile-hero {
+      isolation: isolate;
+    }
+
+    /* Visual repair: restore Schwaiger's real rooms as the first impression. */
+    .landing-inner {
+      grid-template-columns: minmax(0, 0.86fr) minmax(320px, 0.7fr);
+      align-items: start;
+      column-gap: clamp(28px, 5vw, 64px);
+      row-gap: 26px;
+      padding-top: clamp(42px, 6vw, 78px);
+    }
+
+    .hero-panel {
+      align-self: center;
+      min-width: 0;
+      padding-top: clamp(22px, 5vw, 56px);
+    }
+
+    .hero-showcase {
+      align-self: start;
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+      padding-top: clamp(8px, 2vw, 26px);
+    }
+
+    .hero-photo,
+    .visual-tile {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #d7d7d2;
+      box-shadow: var(--shadow-tight);
+    }
+
+    .hero-photo img,
+    .visual-tile img {
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.98) contrast(1.02);
+    }
+
+    .hero-photo {
+      min-height: clamp(280px, 43vw, 520px);
+    }
+
+    .hero-photo img {
+      object-position: center 55%;
+    }
+
+    .hero-caption {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      padding: 12px 13px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: var(--radius);
+      background: rgba(0, 0, 0, 0.56);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.88rem;
+      line-height: 1.35;
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-mini-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 12px;
+    }
+
+    .hero-mini-grid .visual-tile {
+      min-height: 170px;
+    }
+
+    .visual-tile span {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      max-width: calc(100% - 20px);
+      padding: 6px 8px 5px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--black);
+      font-size: 0.72rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .landing-proof,
+    .visual-proof {
+      grid-column: 1 / -1;
+    }
+
+    .visual-proof {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .visual-proof-copy {
+      display: grid;
+      align-content: center;
+      gap: 10px;
+    }
+
+    .visual-proof-copy h2 {
+      color: var(--black);
+      font-size: clamp(1.85rem, 4.6vw, 3.25rem);
+      line-height: 1.02;
+    }
+
+    .visual-proof-copy p {
+      color: var(--readable);
+      line-height: 1.62;
+    }
+
+    .visual-proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      min-height: 260px;
+    }
+
+    .visual-proof-grid .visual-tile:nth-child(1) {
+      grid-row: span 2;
+    }
+
+    .visual-proof-grid .visual-tile:nth-child(4) {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 920px) {
+      .landing-inner {
+        grid-template-columns: 1fr;
+        padding-top: 28px;
+      }
+
+      .hero-panel {
+        padding-top: 8px;
+      }
+
+      .hero-showcase {
+        padding-top: 0;
+      }
+
+      .hero-photo {
+        min-height: 360px;
+      }
+
+      .visual-proof {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-proof-grid {
+        min-height: 0;
+      }
+
+      .topbar {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .landing h1 {
+        max-width: 100%;
+        font-size: clamp(1.95rem, 8.6vw, 2.65rem);
+        line-height: 1.06;
+      }
+
+      .question-panel h2,
+      .result-copy h2 {
+        font-size: clamp(1.8rem, 8.8vw, 2.85rem);
+        line-height: 1.04;
+      }
+
+      .topbar {
+        gap: 10px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .brand-line {
+        justify-content: flex-start;
+      }
+
+      .header-cta {
+        display: none;
+      }
+
+      .topbar-logo {
+        gap: 9px;
+      }
+
+      .topbar-logo img {
+        width: 92px;
+      }
+
+      .logo-text,
+      .progress-label {
+        font-size: 0.72rem;
+      }
+
+      .progress-wrap {
+        gap: 8px;
+      }
+
+      .result-layout {
+        padding-top: 18px;
+      }
+
+      .lead-form-card h3 {
+        font-size: clamp(1.35rem, 6.4vw, 1.9rem);
+        line-height: 1.12;
+      }
+
+      .testimonial-rail {
+        grid-auto-columns: minmax(248px, 86vw);
+      }
+
+      .trust-ticker {
+        width: 100%;
+      }
+
+      .trust-ticker-track {
+        animation-duration: 24s;
+      }
+
+      .hero-photo {
+        min-height: 300px;
+      }
+
+      .hero-mini-grid,
+      .visual-proof-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .visual-proof-grid .visual-tile,
+      .visual-proof-grid .visual-tile:nth-child(1),
+      .visual-proof-grid .visual-tile:nth-child(4) {
+        grid-column: auto;
+        grid-row: auto;
+        min-height: 170px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .logo-text {
+        display: none;
+      }
+
+      .progress-label {
+        white-space: nowrap;
+      }
+
+      .topbar > .text-button {
+        font-size: 0.78rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+
+      .trust-ticker-track {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="screen landing active" id="start" data-screen="start" aria-labelledby="start-title">
+      <div class="landing-media" aria-hidden="true">
+        <img src="quiz-assets/hero-mountain-living.jpg" alt="">
+      </div>
+      <div class="brand-line">
+        <span class="brand-mark">
+          <img src="quiz-assets/schwaiger-logo-weiss.png" alt="Küchen &amp; Wohnstudio Schwaiger">
+        </span>
+        <button class="header-cta" type="button" data-start>Stilprofil starten</button>
+      </div>
+      <div class="landing-inner">
+        <div class="hero-panel">
+          <div class="trust-ticker" aria-label="Bewertungen und Vertrauenssignale">
+            <div class="trust-ticker-track">
+              <div class="trust-ticker-set">
+                <span class="trust-pill"><span class="stars" aria-hidden="true">★★★★★</span> 4,6/5 auf kauftregional.at</span>
+                <span class="trust-pill">38 regionale Bewertungen</span>
+                <span class="trust-pill"><span class="stars" aria-hidden="true">★★★★☆</span> 4,0/5 auf Herold</span>
+                <span class="trust-pill">Seit 1986 in Zell am See</span>
+                <span class="trust-pill">Eigene Monteure</span>
+                <span class="trust-pill">Planung aus einer Hand</span>
+              </div>
+              <div class="trust-ticker-set" aria-hidden="true">
+                <span class="trust-pill"><span class="stars" aria-hidden="true">★★★★★</span> 4,6/5 auf kauftregional.at</span>
+                <span class="trust-pill">38 regionale Bewertungen</span>
+                <span class="trust-pill"><span class="stars" aria-hidden="true">★★★★☆</span> 4,0/5 auf Herold</span>
+                <span class="trust-pill">Seit 1986 in Zell am See</span>
+                <span class="trust-pill">Eigene Monteure</span>
+                <span class="trust-pill">Planung aus einer Hand</span>
+              </div>
+            </div>
+          </div>
+          <p class="eyebrow">Kostenloser Stil-Kompass</p>
+          <h1 id="start-title">Welcher Wohnstil passt wirklich zu Ihnen?</h1>
+          <div class="landing-copy">
+            <p>Beantworten Sie fünf kurze Fragen und erhalten Sie danach Ihr persönliches Stilprofil von Schwaiger.</p>
+            <p>Für Küchen, Wohnräume, Bäder oder ein ganzes Wohnkonzept, das zu Ihrem Leben passt.</p>
+          </div>
+          <div class="micro-proof" aria-label="Kurzvertrauen">
+            <span>Seit 1986 in Zell am See</span>
+            <span>Eigene Monteure</span>
+            <span>Planung aus einer Hand</span>
+          </div>
+          <div class="landing-actions">
+            <button class="button" type="button" data-start>Mein Stilprofil starten</button>
+          </div>
+        </div>
+        <aside class="hero-showcase" aria-label="Schwaiger Raumbeispiele">
+          <figure class="hero-photo">
+            <img src="quiz-assets/hero-mountain-living.jpg" alt="Wohn- und Essbereich mit Bergblick">
+            <figcaption class="hero-caption">Echte Räume statt sterilem Fragebogen: Der Kompass beginnt bei Atmosphäre, Material und Lebensgefühl.</figcaption>
+          </figure>
+          <div class="hero-mini-grid" aria-hidden="true">
+            <div class="visual-tile">
+              <img src="quiz-assets/lodge-kueche.jpg" alt="">
+              <span>Warme Küche</span>
+            </div>
+            <div class="visual-tile">
+              <img src="quiz-assets/raum-dach.jpg" alt="">
+              <span>Holz, Licht, Ruhe</span>
+            </div>
+          </div>
+        </aside>
+        <div class="landing-proof" aria-label="Vertrauenssignale">
+          <div class="proof-card visual-proof">
+            <div class="visual-proof-copy">
+              <h2>Erst schauen. Dann einordnen.</h2>
+              <p>Schwaiger verkauft kein Schema von der Stange. Deshalb führt der Stil-Kompass über echte Raumwirkung: Küche, Essen, Wohnen, Material, Licht und die Frage, was sich zu Hause wirklich richtig anfühlt.</p>
+            </div>
+            <div class="visual-proof-grid" aria-label="Raumwirkung in Bildern">
+              <figure class="visual-tile">
+                <img src="quiz-assets/moment-essen.jpg" alt="Warmer Essbereich mit gedecktem Tisch">
+                <span>Gemeinsame Momente</span>
+              </figure>
+              <figure class="visual-tile">
+                <img src="quiz-assets/detail-kueche.jpg" alt="Detail einer hochwertigen Küche">
+                <span>Materialtiefe</span>
+              </figure>
+              <figure class="visual-tile">
+                <img src="quiz-assets/moment-wohnen.jpg" alt="Ruhiger Wohnbereich mit Sofa">
+                <span>Daheim zum Wohlfühlen</span>
+              </figure>
+              <figure class="visual-tile">
+                <img src="quiz-assets/klar-geplant.jpg" alt="Klar geplanter Küchen- und Wohnraum">
+                <span>Planung aus einer Hand</span>
+              </figure>
+            </div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-section-title">
+              <h2>Was Sie bekommen</h2>
+              <p>Der Kompass sortiert Geschmack, Projektstand und nächsten Schritt. Kurz genug für zwischendurch, konkret genug für ein gutes Gespräch.</p>
+            </div>
+            <div class="how-grid">
+              <div class="how-card">
+                <strong>1. Stil erkennen</strong>
+                <span>Sie sehen, welche Raumwirkung zu Ihnen passt.</span>
+              </div>
+              <div class="how-card">
+                <strong>2. Rahmen klären</strong>
+                <span>Projektstand, Investition und Timing werden ehrlich eingeordnet.</span>
+              </div>
+              <div class="how-card">
+                <strong>3. Profil erhalten</strong>
+                <span>Nach dem Formular wird Ihr Stilprofil freigeschaltet.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="proof-card">
+            <div class="proof-section-title">
+              <h2>Warum Schwaiger?</h2>
+              <p>Ein Wohnprojekt braucht Vertrauen, nicht nur schöne Bilder. Deshalb arbeitet Schwaiger persönlich, regional und mit klarer Verantwortung.</p>
+            </div>
+            <div class="proof-grid">
+              <div class="proof-item">
+                <strong>Seit 1986</strong>
+                <span>Familienbetrieb in Zell am See</span>
+              </div>
+              <div class="proof-item">
+                <strong>Eigenes Team</strong>
+                <span>inklusive eigener Monteure</span>
+              </div>
+              <div class="proof-item">
+                <strong>Alles aus einer Hand</strong>
+                <span>Planung, Koordination, Montage</span>
+              </div>
+            </div>
+            <ul class="benefit-list">
+              <li>Sie bekommen eine erste Stilrichtung, die zu Ihrem Zuhause passt.</li>
+              <li>Sie sehen, worauf Sie bei Material, Wirkung und Planung achten sollten.</li>
+              <li>Schwaiger schaut persönlich mit Ihnen auf Ihr Ergebnis.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="quiz" data-screen="quiz" aria-labelledby="question-title">
+      <div class="screen-shell">
+        <header class="topbar">
+          <div class="topbar-logo">
+            <img src="quiz-assets/schwaiger-logo-weiss.png" alt="Schwaiger">
+            <div class="logo-text">Stil-Kompass</div>
+          </div>
+          <div class="progress-wrap">
+            <span class="progress-label" data-progress-label>Frage 1 von 5</span>
+            <div class="progress-track">
+              <div class="progress-fill" data-progress-fill></div>
+            </div>
+          </div>
+        </header>
+
+        <div class="quiz-layout">
+          <div class="question-panel">
+            <p class="question-kicker" data-question-kicker>Einrichten ohne Plan ist nur wie träumen.</p>
+            <h2 id="question-title" data-question-title>Welcher Moment soll in Ihrem Zuhause schöner werden?</h2>
+            <p class="question-help" data-question-help>Wählen Sie die Antwort, die sich am ehesten nach Ihnen anfühlt. Es gibt hier kein Richtig oder Falsch.</p>
+            <div class="answers" data-answers></div>
+            <div class="nav-actions">
+              <button class="text-button" type="button" data-back>Zurück</button>
+              <button class="text-button" type="button" data-reset>Neu starten</button>
+            </div>
+          </div>
+
+          <figure class="quiz-image">
+            <img src="quiz-assets/moment-essen.jpg" alt="Essbereich mit gedecktem Tisch und warmem Raumgefühl" data-question-image>
+            <figcaption class="image-caption" data-image-caption>Für Momente, in denen der Raum die Hauptrolle leise mitspielt.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="result" data-screen="result" aria-labelledby="result-title">
+      <div class="screen-shell">
+        <header class="topbar">
+          <div class="topbar-logo">
+            <img src="quiz-assets/schwaiger-logo-weiss.png" alt="Schwaiger">
+            <div class="logo-text">Ihr Ergebnis</div>
+          </div>
+          <button class="text-button" type="button" data-reset>Kompass neu starten</button>
+        </header>
+
+        <div class="result-layout">
+          <div class="result-copy">
+            <section class="lead-gate lead-form-card" aria-labelledby="lead-form-title">
+              <h3 id="lead-form-title">Wie schön, dass Sie den Stil-Kompass gemacht haben.</h3>
+              <p>Ihr Stilprofil ist bereit. Hinterlassen Sie kurz Ihre Daten, dann schicken wir Ihre Antworten an Schwaiger und zeigen Ihnen direkt danach Ihr persönliches Ergebnis.</p>
+              <div class="result-proof">
+                <span class="trust-badge">Persönliche Rückmeldung</span>
+                <span class="trust-badge">Kostenlos und unverbindlich</span>
+                <span class="trust-badge">Schwaiger Zell am See</span>
+              </div>
+              <figure class="lead-gate-image">
+                <img src="quiz-assets/moment-wohnen.jpg" alt="Ruhiger Wohnraum mit Sofa und warmem Licht" data-gate-image>
+                <figcaption data-gate-caption>Dieses Bild greift Ihre Stilrichtung auf. Schwaiger schaut persönlich auf Ihr Stilprofil und Ihre Antworten.</figcaption>
+              </figure>
+              <form class="lead-form" data-lead-form>
+                <div class="form-field">
+                  <label for="lead-name">Name</label>
+                  <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required>
+                </div>
+                <div class="form-field">
+                  <label for="lead-email">E-Mail</label>
+                  <input id="lead-email" name="email" type="email" autocomplete="email" placeholder="name@beispiel.at" required>
+                </div>
+                <div class="form-field">
+                  <label for="lead-phone">Telefonnummer</label>
+                  <input id="lead-phone" name="phone" type="tel" autocomplete="tel" placeholder="+43 ..." required>
+                </div>
+                <div class="form-field">
+                  <label for="lead-postal-code">Postleitzahl</label>
+                  <input id="lead-postal-code" name="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="z. B. 5700" pattern="[0-9]{4}" maxlength="4" required>
+                </div>
+                <label class="form-consent" for="lead-consent">
+                  <input id="lead-consent" name="consent" type="checkbox" required>
+                  <span>Ich bin einverstanden, dass Küchen &amp; Wohnstudio Schwaiger meine Angaben zur persönlichen Rückmeldung zu meinem Stilprofil verwendet.</span>
+                </label>
+                <p class="form-note">Ihr Stilprofil wird mitgesendet, damit das Gespräch direkt persönlicher und konkreter starten kann.</p>
+                <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+                <button class="button dark form-submit" type="submit">Mein Stilprofil an Schwaiger senden</button>
+              </form>
+            </section>
+
+            <section class="profile-view" aria-live="polite">
+              <div class="profile-hero">
+                <div>
+                  <p class="question-kicker" data-result-kicker>Daheim zum Wohlfühlen</p>
+                  <h2 id="result-title" data-result-title>Ganz schön ruhig.</h2>
+                  <p class="result-lede" data-result-lede></p>
+                </div>
+                <figure class="result-image">
+                  <img src="quiz-assets/moment-wohnen.jpg" alt="Wohnraum mit Sofa und warmem Licht" data-result-image>
+                </figure>
+              </div>
+
+              <div class="result-advice" aria-label="Ihre persönliche Stilberatung">
+                <details class="advice-card" open>
+                  <summary>Ihre Stil-DNA</summary>
+                  <div class="advice-content">
+                    <p data-result-dna></p>
+                  </div>
+                </details>
+                <details class="advice-card">
+                  <summary>Das sollten Sie wählen</summary>
+                  <div class="advice-content">
+                    <ul data-result-buy></ul>
+                  </div>
+                </details>
+                <details class="advice-card">
+                  <summary>Davon eher fernbleiben</summary>
+                  <div class="advice-content">
+                    <ul data-result-avoid></ul>
+                  </div>
+                </details>
+                <details class="advice-card">
+                  <summary>So sollte es am Ende wirken</summary>
+                  <div class="advice-content">
+                    <p data-result-outcome></p>
+                  </div>
+                </details>
+                <details class="advice-card">
+                  <summary>Ihre nächsten Entscheidungen</summary>
+                  <div class="advice-content">
+                    <ol data-result-decisions></ol>
+                  </div>
+                </details>
+              </div>
+
+              <div class="result-grid">
+                <article class="result-box">
+                  <h3>Materialrichtung</h3>
+                  <p data-result-material></p>
+                </article>
+                <article class="result-box">
+                  <h3>Darauf achten</h3>
+                  <p data-result-watchout></p>
+                </article>
+                <article class="result-box">
+                  <h3>Was jetzt passiert</h3>
+                  <p data-result-next></p>
+                </article>
+                <article class="result-box">
+                  <h3>Warum Schwaiger dazu passt</h3>
+                  <p data-result-why></p>
+                </article>
+              </div>
+
+              <div class="result-actions">
+                <button class="button secondary" type="button" data-back-to-quiz>Antworten anpassen</button>
+              </div>
+            </section>
+
+            <details class="internal-note">
+              <summary>Interne Einordnung für Schwaiger/FourLead</summary>
+              <p data-internal-summary></p>
+              <div data-internal-chips></div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const LEADTABLE_TABLE_URL = "https://portal.lead-table.com/customer/69cd4dcf0eccf7e8c7da454e/table/69cd4e180eccf7e8c7da4baf";
+    // LeadTable Custom Webhook URL goes here. The portal table URL above is not usually the POST endpoint.
+    const LEADTABLE_WEBHOOK_URL = "https://api.lead-table.com/api/webhook/generic/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0YWJsZUlEIjoiNjljZDRlMTgwZWNjZjdlOGM3ZGE0YmFmIiwiY3VzdG9tZXJJRCI6IjY5Y2Q0ZGNmMGVjY2Y3ZThjN2RhNDU0ZSIsImFnZW5jeUlEIjoiNjhkN2NhZmRmYTg0OGM3NzgyNmViODg1IiwiaWF0IjoxNzc1MDYyNTUyfQ.9f_zINcytMvEjfnaHa-OXOHLxlaaaFczXumOMUFhuyY";
+    const LEADTABLE_FIELD_MAP = {
+      name: "vollständiger_name",
+      email: "e-mail-adresse",
+      phone: "telefonnummer",
+      postalCode: "postleitzahl"
+    };
+    let latestResultState = null;
+    let latestResultProfile = null;
+
+    const questions = [
+      {
+        kicker: "Der erste Schritt",
+        title: "Planen Sie aktuell eine neue Küche, einen Wohnraum oder ein größeres Einrichtungsprojekt?",
+        help: "So kann Schwaiger Ihr Stilprofil später besser einordnen.",
+        image: "quiz-assets/projekt-kueche.jpg",
+        alt: "Moderne Küche mit Holz und dunklen Fronten",
+        caption: "Ein gutes Wohnprojekt beginnt damit, den richtigen nächsten Schritt zu kennen.",
+        options: [
+          { label: "Ja, wir möchten konkret planen", text: "Es gibt ein echtes Vorhaben und wir möchten in die Planung kommen.", archetype: "clear", score: 2, fit: 4, stage: "konkrete_planung" },
+          { label: "Ja, aber wir stehen noch am Anfang", text: "Der Wunsch ist da, die Richtung soll klarer werden.", archetype: "craft", score: 2, fit: 3, stage: "fruehe_planung" },
+          { label: "Nein, wir suchen nur Inspiration", text: "Wir möchten Ideen sammeln und unseren Stil besser verstehen.", archetype: "quiet", score: 1, fit: 0, stage: "inspiration" }
+        ]
+      },
+      {
+        kicker: "Ihr Stil beginnt mit einem Gefühl.",
+        title: "Was soll Ihr Zuhause nach der Veränderung vor allem ausstrahlen?",
+        help: "Wählen Sie die Antwort, die sich am ehesten nach Ihnen anfühlt.",
+        image: "quiz-assets/moment-essen.jpg",
+        alt: "Essbereich mit gedecktem Tisch und warmem Raumgefühl",
+        caption: "Der richtige Stil ist kein Katalog. Er ist ein Gefühl, das bleibt.",
+        options: [
+          { label: "Ruhe, Wärme und Ankommen", text: "Ein Zuhause, das leiser wird, sobald man da ist.", archetype: "quiet", score: 4, fit: 1, value: "ruhe_waerme_ankommen" },
+          { label: "Hochwertigkeit, Substanz und Charakter", text: "Materialien und Details, die auch in Jahren noch richtig wirken.", archetype: "craft", score: 4, fit: 2, value: "substanz_charakter" },
+          { label: "Klarheit, Ordnung und gute Planung", text: "Weniger Unruhe, mehr Struktur und jedes Detail am richtigen Platz.", archetype: "clear", score: 4, fit: 2, value: "klarheit_planung" },
+          { label: "Offenheit für Familie, Gäste und gemeinsame Momente", text: "Räume, in denen man gern zusammenkommt.", archetype: "hosting", score: 4, fit: 1, value: "gemeinsame_momente" }
+        ]
+      },
+      {
+        kicker: "Ihre Wohnsituation",
+        title: "Was beschreibt Ihre aktuelle Situation am besten?",
+        help: "Das hilft dabei, Ihr Stilprofil nicht nur schön, sondern praktisch zu machen.",
+        image: "quiz-assets/raum-dach.jpg",
+        alt: "Wohnraum mit Holzdecke und Aussicht",
+        caption: "Oft zeigt die aktuelle Situation schon, welche Lösung später gut tut.",
+        options: [
+          { label: "Unsere aktuelle Einrichtung passt nicht mehr zu unserem Leben", text: "Es soll endlich stimmiger, ruhiger oder erwachsener werden.", archetype: "quiet", score: 3, fit: 2, situation: "passt_nicht_mehr" },
+          { label: "Ein Umbau, Umzug oder neuer Lebensabschnitt steht an", text: "Jetzt ist der richtige Moment, um es von Anfang an gut zu planen.", archetype: "clear", score: 3, fit: 3, situation: "umbruch" },
+          { label: "Wir möchten einzelne Räume endlich stimmig machen", text: "Der Raum funktioniert, aber die Wirkung soll besser werden.", archetype: "hosting", score: 2, fit: 2, situation: "raum_stimmig_machen" },
+          { label: "Wir sammeln erst Ideen und möchten unseren Stil besser verstehen", text: "Noch ohne konkreten Plan, aber mit Lust auf Orientierung.", archetype: "craft", score: 1, fit: 0, situation: "ideen_sammeln" }
+        ]
+      },
+      {
+        kicker: "Der Rahmen",
+        title: "Welcher Investitionsrahmen passt am ehesten zu Ihrem Vorhaben?",
+        help: "Eine ehrliche Einordnung hilft, damit Schwaiger Sie passend beraten kann.",
+        image: "quiz-assets/detail-kueche.jpg",
+        alt: "Küche mit Insel und klarer Planung",
+        caption: "Gute Planung braucht einen Rahmen, in dem Qualität und Anspruch zusammenpassen.",
+        options: [
+          { label: "Ab 10.000 Euro für einen Wohnbereich", text: "Für Wohnzimmer, Essbereich oder eine einzelne Raumlösung.", archetype: "hosting", score: 1, fit: 2, budget: "ab_10000_wohnbereich" },
+          { label: "Ab 15.000 Euro für ein Bad", text: "Für eine hochwertige Badlösung mit klarer Planung.", archetype: "clear", score: 1, fit: 2, budget: "ab_15000_bad" },
+          { label: "Ab 25.000 Euro für eine Küche", text: "Für eine Küche, die Planung, Materialien und Alltag zusammenbringt.", archetype: "craft", score: 2, fit: 4, budget: "ab_25000_kueche" },
+          { label: "Ab 75.000 Euro für mehrere Räume oder eine ganze Wohnung", text: "Für ein größeres Wohnkonzept mit rotem Faden.", archetype: "clear", score: 2, fit: 5, budget: "ab_75000_gesamt" },
+          { label: "Darunter oder nichts davon", text: "Dann nehmen Sie Ihr Stilprofil als Orientierung mit.", archetype: "quiet", score: 0, fit: -3, budget: "darunter_oder_nichts_davon" }
+        ]
+      },
+      {
+        kicker: "Nägel mit Köpfen.",
+        title: "Wann soll Ihr Projekt ungefähr starten?",
+        help: "Ihr Ergebnis funktioniert sofort als Stilprofil. Für eine persönliche Rückmeldung hilft das Timing.",
+        image: "quiz-assets/klar-geplant.jpg",
+        alt: "Klar geplanter Wohn- und Küchenraum",
+        caption: "Der beste nächste Schritt ist oft nicht groß. Nur konkret.",
+        options: [
+          { label: "In den nächsten 3 Monaten", text: "Dann ist ein persönlicher nächster Schritt besonders sinnvoll.", archetype: "clear", score: 2, fit: 4, timeline: "0_3_monate" },
+          { label: "In 3 bis 6 Monaten", text: "Genug Zeit, um Stil, Material und Planung sauber zu sortieren.", archetype: "craft", score: 2, fit: 3, timeline: "3_6_monate" },
+          { label: "In 6 bis 12 Monaten", text: "Eine gute Phase, um die Richtung früh zu klären.", archetype: "quiet", score: 1, fit: 2, timeline: "6_12_monate" },
+          { label: "Später", text: "Dann ist Ihr Profil eine gute Grundlage für später.", archetype: "hosting", score: 1, fit: 0, timeline: "spaeter" },
+          { label: "Noch nicht geplant", text: "Dann nehmen Sie die Einschätzung als Inspiration und erste Orientierung mit.", archetype: "quiet", score: 0, fit: -1, timeline: "noch_nicht_geplant" }
+        ]
+      }
+    ];
+
+    const results = {
+      quiet: {
+        kicker: "Komfortzone",
+        title: "Ihr Stil: Ruhige Wärme.",
+        lede: "Wie schön, dass Sie den Stil-Kompass gemacht haben. Ihr Ergebnis zeigt: Bei Ihnen geht es nicht um laute Effekte, sondern um ein Zuhause, das ankommen lässt. Genau solche Räume entstehen, wenn Material, Licht und Planung fein zusammenspielen.",
+        material: "Warme Naturtöne, ruhiges Holz, weiche Stoffe, matte Oberflächen und Licht, das nicht blendet.",
+        watchout: "Achten Sie auf wenige, gut gesetzte Akzente. Zu viele Muster, Farben oder Einzelideen nehmen Ihrem Stil die Ruhe.",
+        next: "Jemand aus dem Schwaiger-Team meldet sich persönlich bei Ihnen und schaut mit Ihnen, wie diese ruhige, warme Richtung für Ihr Zuhause aussehen könnte.",
+        why: "Ruhige Wärme braucht Planung, die nicht nach Schema arbeitet. Schwaiger verbindet Materialgefühl, Licht, Möblierung und Montage zu einem stimmigen Ganzen.",
+        dna: "Ihr Zuhause sollte leise, warm und selbstverständlich wirken. Die beste Richtung ist nicht dekorativ voll, sondern gut geführt: wenige Materialien, weiche Übergänge, angenehmes Licht und Möbel, die den Raum beruhigen.",
+        buy: [
+          "Matte Fronten, ruhige Holzoberflächen und Naturtöne wie warmes Grau, Greige, Taupe oder gedämpftes Grün.",
+          "Sofas, Essstühle und Polsterelemente mit Stoffstruktur statt glatter Hochglanzwirkung.",
+          "Indirektes Licht, dimmbare Leuchten und warmweiße Lichtfarbe für Küche, Essen und Wohnen.",
+          "Möbel mit klaren, weichen Linien: nicht verspielt, aber auch nicht zu hart oder technisch.",
+          "Ein bis zwei hochwertige Akzente, zum Beispiel ein besonderer Esstisch, ein ruhiger Stein oder ein feiner Griff."
+        ],
+        avoid: [
+          "Viele kleine Dekoelemente, offene Regale voller Einzelstücke oder zu viele sichtbare Farben.",
+          "Kalte LED-Lichtbänder, stark glänzende Fronten und sehr harte Schwarz-Weiß-Kontraste.",
+          "Trendfarben als große Fläche, wenn sie nicht durch Holz, Stoff und Licht abgefedert werden.",
+          "Möbel, die nur einzeln schön sind, aber keine ruhige Gesamtlinie im Raum erzeugen."
+        ],
+        outcome: "Am Ende sollte der Raum so wirken, als würde man automatisch langsamer werden, sobald man hereinkommt. Nichts schreit nach Aufmerksamkeit, aber alles fühlt sich bewusst gewählt an.",
+        decisions: [
+          "Welche Holz- oder Naturton-Basis soll den Raum tragen?",
+          "Wo braucht der Raum weiches Licht statt nur funktionales Licht?",
+          "Welches einzelne Detail darf Charakter geben, ohne die Ruhe zu stören?"
+        ],
+        gateCaption: "Ruhige Wärme beginnt mit einem Raum, der nicht laut sein muss. Genau diese Richtung zeigt Ihr Stilprofil.",
+        image: "quiz-assets/moment-wohnen.jpg",
+        alt: "Ruhiger Wohnraum mit Sofa und warmem Licht"
+      },
+      craft: {
+        kicker: "Holz, Stein, Zeit",
+        title: "Ihr Stil: Natürliche Substanz.",
+        lede: "Ihr Stilprofil passt wunderbar zu einem Zuhause, das nicht nur schön aussieht, sondern lange gut bleibt. Sie scheinen Wert auf echte Materialien, Tiefe und eine Planung zu legen, die man auch nach Jahren noch gerne anschaut.",
+        material: "Holz mit Charakter, Naturstein oder Keramik, dunkle Akzente, feine Griffe, sichtbare Struktur und warmes Licht.",
+        watchout: "Der Materialmix braucht Führung. Wenn jedes Material Hauptrolle spielen will, wird es unruhig. Eine starke Basis und ein bewusstes Highlight reichen oft.",
+        next: "Das Schwaiger-Team meldet sich persönlich bei Ihnen und ordnet mit Ihnen ein, welche Materialien und Räume für Ihr Vorhaben Sinn machen.",
+        why: "Natürliche Substanz passt zu Schwaigers Stärke: echte Materialien, saubere Detailplanung, eigene Monteure und ein Wohnkonzept, das auch nach Jahren noch trägt.",
+        dna: "Ihr Stil lebt von Material, das man nicht erklären muss. Holz, Stein, Keramik, Metall und Textilien dürfen sichtbar Qualität zeigen, aber sie brauchen eine klare Hierarchie.",
+        buy: [
+          "Echtholz, furnierte Flächen oder Holzdekore mit glaubwürdiger Tiefe statt flacher Einheitsoptik.",
+          "Naturstein, Keramik oder steinartige Arbeitsplatten, wenn sie den Raum nicht beschweren.",
+          "Dunkle, ruhige Akzente bei Griffen, Armaturen oder Leuchten statt vieler kleiner Highlights.",
+          "Massive Tische, griffige Stoffe, strukturierte Teppiche und Möbel mit echter Materialpräsenz.",
+          "Ein durchgängiges Materialthema über Küche, Essen und Wohnen, damit alles wie aus einem Guss wirkt."
+        ],
+        avoid: [
+          "Fünf starke Materialien gleichzeitig: Holz, Stein, Metall, Glas und Farbe konkurrieren sonst.",
+          "Zu rustikale Details, die den Raum schwerer oder älter machen als gewünscht.",
+          "Oberflächen, die nur auf den ersten Blick hochwertig wirken, aber keine Tiefe haben.",
+          "Einzelne Statement-Möbel ohne Bezug zu Boden, Küche, Wandfarbe oder Licht."
+        ],
+        outcome: "Das Ziel ist ein Zuhause mit Substanz: nicht laut luxuriös, sondern spürbar wertig. Gäste merken, dass hier gute Entscheidungen getroffen wurden, ohne dass der Raum das behaupten muss.",
+        decisions: [
+          "Welches Material soll die Hauptrolle bekommen: Holz, Stein oder eine ruhige Front?",
+          "Welche Oberflächen müssen im Alltag robust bleiben, nicht nur schön aussehen?",
+          "Wo darf ein dunkler oder handwerklicher Akzent Tiefe geben?"
+        ],
+        gateCaption: "Ihr Stilprofil deutet auf Materialtiefe, Holz, Stein und handwerkliche Ruhe. Dieses Bild nimmt diese Richtung auf.",
+        image: "quiz-assets/lodge-kueche.jpg",
+        alt: "Warme Holzküche mit Lodge-Charakter"
+      },
+      hosting: {
+        kicker: "Das Auge isst mit",
+        title: "Ihr Stil: Einladende Eleganz.",
+        lede: "Ihr Ergebnis zeigt eine sehr schöne Richtung: Sie denken Wohnen nicht nur als Einrichtung, sondern als Ort für gemeinsame Momente. Genau hier lohnt sich gute Planung besonders, weil Küche, Essen und Wohnen miteinander sprechen müssen.",
+        material: "Robuste, edle Oberflächen, warmes Licht, bequeme Sitzplätze, ein stimmiger Essplatz und genug Bewegungsfreiheit.",
+        watchout: "Planen Sie nicht nur einzelne schöne Möbel. Entscheidend ist, wie man sich im Raum bewegt, wo man sitzt und wie Küche, Tisch und Wohnen zusammenspielen.",
+        next: "Jemand von Schwaiger meldet sich persönlich bei Ihnen und schaut, wie sich dieses Gefühl in Ihrem Zuhause weiterdenken lässt.",
+        why: "Einladende Eleganz entsteht, wenn Küche, Essen und Wohnen zusammenspielen. Schwaiger plant diese Übergänge aus einer Hand, statt einzelne Möbel nebeneinanderzustellen.",
+        dna: "Bei Ihnen darf Wohnen großzügig, gastfreundlich und schön selbstverständlich sein. Küche, Essplatz und Wohnbereich sollten nicht getrennt denken, sondern einen gemeinsamen Moment schaffen.",
+        buy: [
+          "Einen Esstisch mit Präsenz, bequeme Stühle und Stoffe, auf denen man gerne länger sitzen bleibt.",
+          "Robuste, edle Oberflächen in Küche und Essbereich, die Alltag und Gäste gut aushalten.",
+          "Warm gesetztes Zonenlicht über Tisch, Insel oder Anrichte statt nur einer zentralen Deckenleuchte.",
+          "Stauraum, der Dinge verschwinden lässt, damit der Raum auch nach dem Essen ruhig bleibt.",
+          "Möbel, die Laufwege freihalten und Gespräche unterstützen: nicht zu sperrig, nicht zu klein gedacht."
+        ],
+        avoid: [
+          "Zu viele schöne Einzelmöbel ohne Plan für Wege, Sitzkomfort und Blickachsen.",
+          "Empfindliche Oberflächen an Stellen, die im Alltag ständig berührt werden.",
+          "Essplätze, die optisch gut aussehen, aber zu eng, zu hart oder schlecht beleuchtet sind.",
+          "Küchenplanung ohne Übergang zum Tisch und Wohnbereich."
+        ],
+        outcome: "Der Raum sollte sich vorbereitet anfühlen, ohne inszeniert zu wirken. Man kommt herein, setzt sich gern hin und merkt: Hier kann Alltag genauso gut stattfinden wie ein langer Abend mit Gästen.",
+        decisions: [
+          "Wo sitzt man wirklich gerne, und wie viel Platz braucht dieser Bereich?",
+          "Welche Oberflächen müssen Gäste, Kinder, Alltag oder häufiges Kochen aushalten?",
+          "Wie verbinden Licht und Stauraum Küche, Essen und Wohnen zu einem gemeinsamen Raum?"
+        ],
+        gateCaption: "Ihr Profil zeigt Räume für gemeinsame Momente. Das passende Bild dazu: ein Zuhause, das Gäste und Alltag zusammenbringt.",
+        image: "quiz-assets/moment-essen.jpg",
+        alt: "Essbereich mit warmem Licht"
+      },
+      clear: {
+        kicker: "Renovierung mit Lächel-Garantie",
+        title: "Ihr Stil: Klare Linie.",
+        lede: "Ihr Stilprofil zeigt: Sie mögen es klar, ruhig und gut durchdacht. Bei Ihnen geht es wahrscheinlich weniger um viele Dekorationen, sondern um eine Planung, bei der jedes Detail seinen Platz hat.",
+        material: "Ruhige Fronten, klare Linien, wenige starke Materialien, integrierte Lösungen und präzise Lichtführung.",
+        watchout: "Entscheiden Sie nicht zu früh über einzelne Produkte. Erst muss die Raumlogik stimmen, dann wirken Küche, Möbel und Details selbstverständlich.",
+        next: "Das Schwaiger-Team meldet sich persönlich bei Ihnen und schaut mit Ihnen, wie diese klare Linie in Ihrem Projekt funktionieren kann.",
+        why: "Klare Linie braucht technische Planung, gute Abläufe und ein Team, das Umsetzung mitdenkt. Genau dort spielt Schwaiger seine Komplett-Projektstärke aus.",
+        dna: "Ihr Stil braucht Ordnung, Präzision und eine starke Grundidee. Die Wirkung entsteht weniger über Dekoration, sondern über Proportion, Stauraum, Fugen, Lichtachsen und gut versteckte Funktionen.",
+        buy: [
+          "Grifflose oder sehr reduzierte Fronten, bündige Einbauten und Möbel mit klarer Geometrie.",
+          "Großzügige Stauraumlösungen, damit Arbeitsflächen, Sideboards und offene Bereiche ruhig bleiben.",
+          "Wenige, präzise Materialien: zum Beispiel eine ruhige Front, ein warmer Boden und ein starker Stein.",
+          "Integrierte Geräte, unauffällige Technik und Licht, das Architektur betont statt nur zu beleuchten.",
+          "Maßlösungen für schwierige Ecken, Dachschrägen oder Übergänge, damit nichts nach Kompromiss aussieht."
+        ],
+        avoid: [
+          "Zu frühe Produktentscheidungen, bevor Grundriss, Laufwege und Stauraum geklärt sind.",
+          "Offene Regale als Hauptlösung, wenn eigentlich Ruhe und Ordnung gewünscht sind.",
+          "Kleine Deko-Akzente, die die klare Linie unnötig unterbrechen.",
+          "Standardmöbel in Räumen, die eigentlich präzise Maßführung brauchen."
+        ],
+        outcome: "Am Ende sollte der Raum fast selbstverständlich wirken: klare Flächen, kurze Wege, keine sichtbaren Kompromisse. Man merkt die Planung nicht laut, aber man spürt sie jeden Tag.",
+        decisions: [
+          "Welche Funktionen sollen verschwinden, damit der Raum ruhig bleibt?",
+          "Welche Linie bestimmt den Raum: Küche, Wand, Tisch, Licht oder Stauraum?",
+          "Welche Details müssen maßgenau gelöst werden, bevor Möbel ausgewählt werden?"
+        ],
+        gateCaption: "Ihr Stilprofil zeigt Klarheit und Struktur. Dieses Bild passt dazu, weil Raumlogik und Oberfläche ruhig zusammenspielen.",
+        image: "quiz-assets/klar-geplant.jpg",
+        alt: "Klar geplanter Wohn- und Küchenraum"
+      }
+    };
+
+    const answers = [];
+    let current = 0;
+    let profileUnlocked = false;
+
+    const screens = {
+      start: document.querySelector('[data-screen="start"]'),
+      quiz: document.querySelector('[data-screen="quiz"]'),
+      result: document.querySelector('[data-screen="result"]')
+    };
+
+    const titleEl = document.querySelector("[data-question-title]");
+    const helpEl = document.querySelector("[data-question-help]");
+    const kickerEl = document.querySelector("[data-question-kicker]");
+    const answersEl = document.querySelector("[data-answers]");
+    const imageEl = document.querySelector("[data-question-image]");
+    const captionEl = document.querySelector("[data-image-caption]");
+    const progressLabel = document.querySelector("[data-progress-label]");
+    const progressFill = document.querySelector("[data-progress-fill]");
+
+    function showScreen(name) {
+      Object.values(screens).forEach((screen) => screen.classList.remove("active"));
+      screens[name].classList.add("active");
+      window.location.hash = name === "start" ? "" : name;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function setStatus(message, type = "") {
+      const status = document.querySelector("[data-form-status]");
+      if (!status) return;
+      status.classList.remove("is-success", "is-error", "is-loading");
+      if (type) {
+        status.classList.add(`is-${type}`);
+      }
+      status.textContent = message;
+    }
+
+    function resetQuiz() {
+      current = 0;
+      answers.length = 0;
+      latestResultState = null;
+      latestResultProfile = null;
+      profileUnlocked = false;
+      screens.result.classList.remove("profile-unlocked");
+      const form = document.querySelector("[data-lead-form]");
+      if (form) {
+        form.reset();
+      }
+      setStatus("");
+      renderQuestion();
+      showScreen("start");
+    }
+
+    function allQuestionsAnswered() {
+      return questions.length > 0 && answers.length === questions.length && answers.every((answer) => Number.isInteger(answer));
+    }
+
+    function isLeadFormValid(form) {
+      if (typeof form.checkValidity === "function") {
+        if (!form.checkValidity()) {
+          if (typeof form.reportValidity === "function") {
+            form.reportValidity();
+          }
+          return false;
+        }
+        return true;
+      }
+
+      const requiredFields = [...form.querySelectorAll("[required]")];
+      const invalidField = requiredFields.find((field) => {
+        if (field.type === "checkbox") {
+          return !field.checked;
+        }
+        const value = String(field.value || "").trim();
+        if (!value) {
+          return true;
+        }
+        if (field.type === "email") {
+          return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        }
+        if (field.pattern) {
+          return !(new RegExp(`^(?:${field.pattern})$`)).test(value);
+        }
+        return false;
+      });
+
+      if (invalidField) {
+        invalidField.focus();
+        setStatus("Bitte füllen Sie alle Felder korrekt aus.", "error");
+        return false;
+      }
+      return true;
+    }
+
+    function renderQuestion() {
+      const question = questions[current];
+      titleEl.textContent = question.title;
+      helpEl.textContent = question.help;
+      kickerEl.textContent = question.kicker;
+      imageEl.src = question.image;
+      imageEl.alt = question.alt;
+      captionEl.textContent = question.caption;
+      progressLabel.textContent = `Frage ${current + 1} von ${questions.length}`;
+      progressFill.style.width = `${((current + 1) / questions.length) * 100}%`;
+
+      answersEl.innerHTML = "";
+      question.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "answer";
+        button.type = "button";
+        if (answers[current] === index) {
+          button.classList.add("selected");
+        }
+        button.innerHTML = `<div><strong>${option.label}</strong><span>${option.text}</span></div>`;
+        button.addEventListener("click", () => selectAnswer(index));
+        answersEl.appendChild(button);
+      });
+    }
+
+    function selectAnswer(index) {
+      answers[current] = index;
+      if (current < questions.length - 1) {
+        current += 1;
+        renderQuestion();
+        return;
+      }
+      renderResult();
+      showScreen("result");
+    }
+
+    function getSelectedOptions() {
+      return questions.map((question, index) => question.options[answers[index]]).filter(Boolean);
+    }
+
+    function classify() {
+      const selected = getSelectedOptions();
+      const archetypes = { quiet: 0, craft: 0, hosting: 0, clear: 0 };
+      let fit = 0;
+      let score = 0;
+
+      selected.forEach((option) => {
+        archetypes[option.archetype] += option.score;
+        score += option.score;
+        fit += option.fit;
+      });
+
+      const winner = Object.entries(archetypes).sort((a, b) => b[1] - a[1])[0][0];
+      const stage = selected.find((option) => option.stage)?.stage || "unknown";
+      const value = selected.find((option) => option.value)?.value || "unknown";
+      const situation = selected.find((option) => option.situation)?.situation || "unknown";
+      const budget = selected.find((option) => option.budget)?.budget || "unknown";
+      const timeline = selected.find((option) => option.timeline)?.timeline || "unknown";
+      const band = fit >= 13 ? "A" : fit >= 8 ? "B" : fit >= 4 ? "C" : "D";
+      return { winner, fit, score, band, stage, value, situation, budget, timeline, archetypes };
+    }
+
+    function getFitMeta(band) {
+      const meta = {
+        A: {
+          label: "Hohe Priorität",
+          meaning: "konkretes Projekt, passender Rahmen, zeitnah nachfassen",
+          action: "persönlich und zeitnah anrufen"
+        },
+        B: {
+          label: "Guter Projekt-Fit",
+          meaning: "echtes Interesse, aber noch etwas früher in der Entscheidung",
+          action: "persönlich nachfassen und Bedarf einordnen"
+        },
+        C: {
+          label: "Orientierungs-Lead",
+          meaning: "Stilinteresse vorhanden, Projekt noch nicht klar genug",
+          action: "warm nachfassen oder in Nurture aufnehmen"
+        },
+        D: {
+          label: "Inspirations-Lead",
+          meaning: "eher Inspiration, unter Rahmen oder noch kein konkretes Vorhaben",
+          action: "nicht priorisieren, aber für spätere Kommunikation behalten"
+        }
+      };
+      return meta[band] || meta.C;
+    }
+
+    function renderItems(selector, items) {
+      const list = document.querySelector(selector);
+      list.innerHTML = "";
+      items.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    function renderResult(forceType) {
+      const state = forceType ? { winner: forceType, fit: 10, score: 12, band: "B", stage: "preview", value: "preview", situation: "preview", budget: "preview", timeline: "preview", archetypes: {} } : classify();
+      const result = results[state.winner];
+      const fitMeta = getFitMeta(state.band);
+      latestResultState = state;
+      latestResultProfile = result;
+      document.querySelector("[data-result-kicker]").textContent = result.kicker;
+      document.querySelector("[data-result-title]").textContent = result.title;
+      document.querySelector("[data-result-lede]").textContent = result.lede;
+      document.querySelector("[data-result-material]").textContent = result.material;
+      document.querySelector("[data-result-watchout]").textContent = result.watchout;
+      document.querySelector("[data-result-next]").textContent = result.next;
+      document.querySelector("[data-result-why]").textContent = result.why;
+      document.querySelector("[data-result-dna]").textContent = result.dna;
+      document.querySelector("[data-result-outcome]").textContent = result.outcome;
+      renderItems("[data-result-buy]", result.buy);
+      renderItems("[data-result-avoid]", result.avoid);
+      renderItems("[data-result-decisions]", result.decisions);
+      const resultImage = document.querySelector("[data-result-image]");
+      resultImage.src = result.image;
+      resultImage.alt = result.alt;
+      const gateImage = document.querySelector("[data-gate-image]");
+      const gateCaption = document.querySelector("[data-gate-caption]");
+      gateImage.src = result.image;
+      gateImage.alt = result.alt;
+      gateCaption.textContent = result.gateCaption;
+
+      const internal = document.querySelector("[data-internal-summary]");
+      const chips = document.querySelector("[data-internal-chips]");
+      internal.textContent = `Einordnung ${state.band}: ${fitMeta.label}. Bedeutung: ${fitMeta.meaning}. Empfehlung: ${fitMeta.action}. Fit-Wert ${state.fit}, Stilwert ${state.score}. Phase: ${state.stage}. Situation: ${state.situation}. Budget: ${state.budget}. Timing: ${state.timeline}.`;
+      chips.innerHTML = `
+        <span class="fit-chip ${state.band === "A" ? "good" : state.band === "B" || state.band === "C" ? "maybe" : "quiet"}">Lead ${state.band}: ${fitMeta.label}</span>
+        <span class="fit-chip maybe">intern sichtbar</span>
+      `;
+    }
+
+    function unlockProfile() {
+      profileUnlocked = true;
+      screens.result.classList.add("profile-unlocked");
+      setStatus("Danke. Ihr Stilprofil ist angekommen.", "success");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function buildLeadPayload(formData) {
+      const quizAnswers = questions.map((question, index) => {
+        const selected = question.options[answers[index]];
+        return `${index + 1}. ${question.title}: ${selected?.label || ""}${selected?.text ? ` (${selected.text})` : ""}`;
+      }).join("\n");
+
+      const fitMeta = getFitMeta(latestResultState?.band || "C");
+      const values = Object.fromEntries([...formData.entries()].map(([key, value]) => [key, typeof value === "string" ? value.trim() : value]));
+      const params = new URLSearchParams(window.location.search);
+      const utm = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].reduce((acc, key) => {
+        acc[key] = params.get(key) || "";
+        return acc;
+      }, {});
+
+      return {
+        fields: {
+          [LEADTABLE_FIELD_MAP.name]: values.name || "",
+          [LEADTABLE_FIELD_MAP.email]: values.email || "",
+          [LEADTABLE_FIELD_MAP.phone]: values.phone || "",
+          [LEADTABLE_FIELD_MAP.postalCode]: values.postalCode || "",
+          stilprofil: latestResultProfile?.title || "",
+          stil_beschreibung: latestResultProfile?.lede || "",
+          stil_dna: latestResultProfile?.dna || "",
+          material_hinweis: latestResultProfile?.material || "",
+          kaufen_waehlen: latestResultProfile?.buy?.join("\n") || "",
+          meiden: latestResultProfile?.avoid?.join("\n") || "",
+          zielwirkung: latestResultProfile?.outcome || "",
+          planungsentscheidungen: latestResultProfile?.decisions?.join("\n") || "",
+          achtungspunkt: latestResultProfile?.watchout || "",
+          naechster_schritt: latestResultProfile?.next || "",
+          lead_prioritaet: latestResultState?.band || "",
+          lead_prioritaet_label: fitMeta.label,
+          lead_prioritaet_bedeutung: fitMeta.meaning,
+          nachfass_empfehlung: fitMeta.action,
+          fit_score: latestResultState?.fit ?? "",
+          stil_score: latestResultState?.score ?? "",
+          projektphase: latestResultState?.stage || "",
+          wohnsituation: latestResultState?.situation || "",
+          werte_signal: latestResultState?.value || "",
+          investitionsrahmen: latestResultState?.budget || "",
+          timing: latestResultState?.timeline || "",
+          quiz_antworten: quizAnswers,
+          einwilligung: values.consent ? "ja" : "nein",
+          einwilligung_zeitpunkt: new Date().toISOString(),
+          seiten_url: window.location.href,
+          referrer: document.referrer || "",
+          user_agent: navigator.userAgent,
+          ...utm,
+          quelle: "Schwaiger Stil-Kompass",
+          leadtable_tabelle: LEADTABLE_TABLE_URL,
+          erstellt_am: new Date().toISOString()
+        }
+      };
+    }
+
+    async function submitLead(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const submitButton = form.querySelector("button[type='submit']");
+      if (!isLeadFormValid(form)) {
+        return;
+      }
+      if (!allQuestionsAnswered() || !latestResultState || !latestResultProfile) {
+        setStatus("Bitte beantworten Sie zuerst alle Fragen.", "error");
+        return;
+      }
+      const payload = buildLeadPayload(new FormData(form));
+
+      setStatus("Einen Moment, Ihr Stilprofil wird vorbereitet.", "loading");
+      submitButton.disabled = true;
+
+      if (!LEADTABLE_WEBHOOK_URL) {
+        console.info("LeadTable payload ready:", payload);
+        unlockProfile();
+        submitButton.disabled = false;
+        return;
+      }
+
+      try {
+        const response = await fetch(LEADTABLE_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`LeadTable error ${response.status}`);
+        }
+
+        unlockProfile();
+        form.reset();
+      } catch (error) {
+        console.error(error);
+        setStatus("Das hat gerade nicht geklappt. Bitte versuchen Sie es noch einmal.", "error");
+      } finally {
+        submitButton.disabled = false;
+      }
+    }
+
+    document.querySelectorAll("[data-start]").forEach((button) => button.addEventListener("click", () => {
+      current = 0;
+      answers.length = 0;
+      renderQuestion();
+      showScreen("quiz");
+    }));
+
+    document.querySelectorAll("[data-reset]").forEach((button) => {
+      button.addEventListener("click", resetQuiz);
+    });
+
+    document.querySelector("[data-back]").addEventListener("click", () => {
+      if (current === 0) {
+        showScreen("start");
+        return;
+      }
+      current -= 1;
+      renderQuestion();
+    });
+
+    document.querySelector("[data-back-to-quiz]").addEventListener("click", () => {
+      current = Math.max(0, questions.length - 1);
+      renderQuestion();
+      showScreen("quiz");
+    });
+
+    document.querySelector("[data-lead-form]").addEventListener("submit", submitLead);
+
+    renderQuestion();
+
+    if (window.location.hash === "#quiz") {
+      showScreen("quiz");
+    } else if (window.location.hash === "#result") {
+      resetQuiz();
+    }
+  </script>
+</body>
+</html>
