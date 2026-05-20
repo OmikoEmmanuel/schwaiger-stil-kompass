@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Schwaiger Stil-Kompass</title>
+  <meta name="description" content="Finden Sie heraus, welche Wohn- und Materialwelt zu Ihrem Zuhause passt. Der Schwaiger Stil-Kompass für Küche, Wohnen und Einrichtung.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Schwaiger Stil-Kompass">
+  <meta property="og:description" content="Welche Wohn- und Materialwelt passt zu Ihrem Zuhause? Machen Sie den Stil-Kompass und erhalten Sie Ihr persönliches Stilprofil.">
+  <meta property="og:image" content="quiz-assets/moment-wohnen.jpg">
+  <meta property="og:locale" content="de_AT">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
@@ -1570,6 +1576,60 @@
       color: var(--good);
     }
 
+    .cookie-consent {
+      position: fixed;
+      right: clamp(14px, 3vw, 28px);
+      bottom: clamp(14px, 3vw, 28px);
+      z-index: 20;
+      width: min(440px, calc(100vw - 28px));
+      padding: 18px;
+      display: none;
+      gap: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      background: rgba(26, 23, 27, 0.96);
+      color: var(--cream);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+    }
+
+    .cookie-consent.is-visible {
+      display: grid;
+    }
+
+    .cookie-consent h2 {
+      font-size: 1.05rem;
+      color: var(--cream);
+    }
+
+    .cookie-consent p {
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .cookie-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cookie-button {
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-control);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--cream);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .cookie-button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--accent-contrast);
+    }
+
     /* Final mobile QA polish: lighter editorial weight and stable header rows. */
     h1,
     h2,
@@ -2209,10 +2269,24 @@
     </section>
   </main>
 
+  <aside class="cookie-consent" data-cookie-consent aria-labelledby="cookie-consent-title">
+    <div>
+      <h2 id="cookie-consent-title">Cookies und Messung</h2>
+      <p>Wir verwenden notwendige Technik für diese Seite. Mit Ihrer Zustimmung messen wir zusätzlich über Meta, welche Inhalte und Anfragen funktionieren.</p>
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-button primary" type="button" data-cookie-accept>Marketing erlauben</button>
+      <button class="cookie-button" type="button" data-cookie-decline>Nur notwendig</button>
+    </div>
+  </aside>
+
   <script>
     const LEADTABLE_TABLE_URL = "https://portal.lead-table.com/customer/69cd4dcf0eccf7e8c7da454e/table/69cd4e180eccf7e8c7da4baf";
     // LeadTable Custom Webhook URL goes here. The portal table URL above is not usually the POST endpoint.
     const LEADTABLE_WEBHOOK_URL = "https://api.lead-table.com/api/webhook/generic/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0YWJsZUlEIjoiNjljZDRlMTgwZWNjZjdlOGM3ZGE0YmFmIiwiY3VzdG9tZXJJRCI6IjY5Y2Q0ZGNmMGVjY2Y3ZThjN2RhNDU0ZSIsImFnZW5jeUlEIjoiNjhkN2NhZmRmYTg0OGM3NzgyNmViODg1IiwiaWF0IjoxNzc1MDYyNTUyfQ.9f_zINcytMvEjfnaHa-OXOHLxlaaaFczXumOMUFhuyY";
+    const META_PIXEL_ID = "986019473814008"; // Pixel-ID aus Meta Events Manager.
+    const META_CAPI_ENDPOINT = ""; // Cloudflare Worker / Serverless URL eintragen.
+    const COOKIE_CONSENT_KEY = "schwaiger_marketing_consent";
     const LEADTABLE_FIELD_MAP = {
       name: "vollständiger_name",
       email: "e-mail-adresse",
@@ -2430,6 +2504,7 @@
     const answers = [];
     let current = 0;
     let profileUnlocked = false;
+    let metaPixelReady = false;
 
     const screens = {
       start: document.querySelector('[data-screen="start"]'),
@@ -2445,6 +2520,116 @@
     const captionEl = document.querySelector("[data-image-caption]");
     const progressLabel = document.querySelector("[data-progress-label]");
     const progressFill = document.querySelector("[data-progress-fill]");
+
+    function getMarketingConsent() {
+      return localStorage.getItem(COOKIE_CONSENT_KEY) === "granted";
+    }
+
+    function setMarketingConsent(value) {
+      localStorage.setItem(COOKIE_CONSENT_KEY, value ? "granted" : "denied");
+    }
+
+    function getCookieValue(name) {
+      return document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(`${name}=`))
+        ?.split("=")
+        .slice(1)
+        .join("=") || "";
+    }
+
+    function createEventId(eventName) {
+      if (window.crypto?.randomUUID) {
+        return `${eventName}.${window.crypto.randomUUID()}`;
+      }
+      return `${eventName}.${Date.now()}.${Math.random().toString(16).slice(2)}`;
+    }
+
+    function initMetaPixel() {
+      if (metaPixelReady || !META_PIXEL_ID || !getMarketingConsent()) return;
+      (function(f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function() {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = true;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = true;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+      fbq("init", META_PIXEL_ID);
+      metaPixelReady = true;
+    }
+
+    async function sendCapiEvent(eventName, eventId, customData = {}, userData = {}) {
+      if (!META_CAPI_ENDPOINT || !getMarketingConsent()) return;
+      const payload = {
+        event_name: eventName,
+        event_id: eventId,
+        event_source_url: window.location.href,
+        user_data: {
+          fbp: getCookieValue("_fbp"),
+          fbc: getCookieValue("_fbc"),
+          ...userData
+        },
+        custom_data: customData
+      };
+
+      try {
+        await fetch(META_CAPI_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          keepalive: true
+        });
+      } catch (error) {
+        console.warn("Meta CAPI event failed", error);
+      }
+    }
+
+    function trackMetaEvent(eventName, customData = {}, userData = {}) {
+      if (!getMarketingConsent()) return "";
+      initMetaPixel();
+      const eventId = createEventId(eventName);
+      if (window.fbq && META_PIXEL_ID) {
+        fbq("track", eventName, customData, { eventID: eventId });
+      }
+      sendCapiEvent(eventName, eventId, customData, userData);
+      return eventId;
+    }
+
+    function initCookieConsent() {
+      const banner = document.querySelector("[data-cookie-consent]");
+      const storedConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
+      if (!banner) return;
+
+      if (!storedConsent) {
+        banner.classList.add("is-visible");
+      }
+
+      document.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
+        setMarketingConsent(true);
+        banner.classList.remove("is-visible");
+        initMetaPixel();
+        trackMetaEvent("PageView", { content_name: "Schwaiger Stil-Kompass" });
+      });
+
+      document.querySelector("[data-cookie-decline]")?.addEventListener("click", () => {
+        setMarketingConsent(false);
+        banner.classList.remove("is-visible");
+      });
+
+      if (getMarketingConsent()) {
+        initMetaPixel();
+        trackMetaEvent("PageView", { content_name: "Schwaiger Stil-Kompass" });
+      }
+    }
 
     function showScreen(name) {
       Object.values(screens).forEach((screen) => screen.classList.remove("active"));
@@ -2553,6 +2738,11 @@
         return;
       }
       renderResult();
+      trackMetaEvent("ViewContent", {
+        content_name: "Stilprofil Ergebnis",
+        content_category: "Stil-Kompass",
+        content_type: "quiz_result"
+      });
       showScreen("result");
     }
 
@@ -2704,6 +2894,7 @@
           timing: latestResultState?.timeline || "",
           quiz_antworten: quizAnswers,
           einwilligung: values.consent ? "ja" : "nein",
+          marketing_einwilligung: getMarketingConsent() ? "ja" : "nein",
           einwilligung_zeitpunkt: new Date().toISOString(),
           seiten_url: window.location.href,
           referrer: document.referrer || "",
@@ -2728,6 +2919,7 @@
         return;
       }
       const payload = buildLeadPayload(new FormData(form));
+      const values = Object.fromEntries([...new FormData(form).entries()].map(([key, value]) => [key, typeof value === "string" ? value.trim() : value]));
 
       setStatus("Einen Moment, Ihr Stilprofil wird vorbereitet.", "loading");
       submitButton.disabled = true;
@@ -2751,6 +2943,16 @@
         }
 
         unlockProfile();
+        trackMetaEvent("Lead", {
+          content_name: latestResultProfile?.title || "Stil-Kompass Lead",
+          content_category: "Schwaiger Stil-Kompass",
+          lead_type: latestResultState?.band || "",
+          status: "lead_submitted"
+        }, {
+          em: values.email || "",
+          ph: values.phone || "",
+          zp: values.postalCode || ""
+        });
         form.reset();
       } catch (error) {
         console.error(error);
@@ -2764,6 +2966,11 @@
       current = 0;
       answers.length = 0;
       renderQuestion();
+      trackMetaEvent("ViewContent", {
+        content_name: "Stil-Kompass Quiz Start",
+        content_category: "Quiz",
+        content_type: "quiz_start"
+      });
       showScreen("quiz");
     }));
 
@@ -2789,6 +2996,7 @@
     document.querySelector("[data-lead-form]").addEventListener("submit", submitLead);
 
     renderQuestion();
+    initCookieConsent();
 
     if (window.location.hash === "#quiz") {
       showScreen("quiz");
