@@ -2049,78 +2049,6 @@
       }
     }
 
-    .cookie-consent {
-      position: fixed;
-      top: clamp(84px, 12vh, 132px);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 50;
-      width: min(760px, calc(100vw - 32px));
-      padding: clamp(22px, 3vw, 32px);
-      display: none;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: clamp(18px, 3vw, 32px);
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: var(--radius);
-      background: rgba(26, 23, 27, 0.98);
-      color: var(--cream);
-      box-shadow: 0 28px 88px rgba(0, 0, 0, 0.38);
-      backdrop-filter: blur(18px);
-    }
-
-    .cookie-consent.is-visible {
-      display: grid;
-    }
-
-    .cookie-consent h2 {
-      font-size: clamp(1.24rem, 2vw, 1.72rem);
-      color: var(--cream);
-    }
-
-    .cookie-consent p {
-      max-width: 54ch;
-      color: rgba(255, 255, 255, 0.82);
-      font-size: clamp(0.94rem, 1.1vw, 1.04rem);
-      line-height: 1.5;
-    }
-
-    .cookie-actions {
-      display: grid;
-      gap: 10px;
-    }
-
-    .cookie-button {
-      min-height: 48px;
-      padding: 0 18px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: var(--radius-control);
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--cream);
-      font-size: 0.9rem;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .cookie-button.primary {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: var(--accent-contrast);
-    }
-
-    @media (max-width: 720px) {
-      .cookie-consent {
-        top: auto;
-        bottom: 14px;
-        grid-template-columns: 1fr;
-        align-items: stretch;
-      }
-
-      .cookie-actions {
-        grid-template-columns: 1fr;
-      }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -2459,21 +2387,9 @@
     </section>
   </main>
 
-  <aside class="cookie-consent" data-cookie-consent aria-label="Cookie-Einstellungen">
-    <div>
-      <h2>Marketing-Cookies?</h2>
-      <p>Wir nutzen Meta Pixel und Microsoft Clarity nur, wenn Sie Marketing erlauben. So können wir sehen, welche Anzeigen und Seitenbereiche hilfreich sind.</p>
-    </div>
-    <div class="cookie-actions">
-      <button class="cookie-button primary" type="button" data-cookie-accept>Marketing erlauben</button>
-      <button class="cookie-button" type="button" data-cookie-decline>Nur notwendig</button>
-    </div>
-  </aside>
-
   <script>
     const META_PIXEL_ID = "986019473814008";
     const CLARITY_PROJECT_ID = "wu7xvjc5a7";
-    const COOKIE_CONSENT_KEY = "schwaiger_marketing_consent";
     let metaPixelReady = false;
     let clarityReady = false;
     const LEADTABLE_TABLE_URL = "https://portal.lead-table.com/customer/69cd4dcf0eccf7e8c7da454e/table/69cd4e180eccf7e8c7da4baf";
@@ -2488,21 +2404,13 @@
     let latestResultState = null;
     let latestResultProfile = null;
 
-    function getMarketingConsent() {
-      return localStorage.getItem(COOKIE_CONSENT_KEY) === "granted";
-    }
-
-    function setMarketingConsent(value) {
-      localStorage.setItem(COOKIE_CONSENT_KEY, value ? "granted" : "denied");
-    }
-
     function createEventId(eventName) {
       if (window.crypto?.randomUUID) return `${eventName}.${window.crypto.randomUUID()}`;
       return `${eventName}.${Date.now()}.${Math.random().toString(16).slice(2)}`;
     }
 
     function initMetaPixel() {
-      if (metaPixelReady || !META_PIXEL_ID || !getMarketingConsent()) return;
+      if (metaPixelReady || !META_PIXEL_ID) return;
       (function(f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function() {
@@ -2524,7 +2432,7 @@
     }
 
     function initMicrosoftClarity() {
-      if (clarityReady || !CLARITY_PROJECT_ID || !getMarketingConsent()) return;
+      if (clarityReady || !CLARITY_PROJECT_ID) return;
       (function(c, l, a, r, i, t, y) {
         c[a] = c[a] || function() {
           (c[a].q = c[a].q || []).push(arguments);
@@ -2544,7 +2452,6 @@
     }
 
     function trackMetaEvent(eventName, customData = {}) {
-      if (!getMarketingConsent()) return "";
       initMarketingTracking();
       const eventId = createEventId(eventName);
       if (window.fbq && META_PIXEL_ID) {
@@ -2553,29 +2460,8 @@
       return eventId;
     }
 
-    function initCookieConsent() {
-      const banner = document.querySelector("[data-cookie-consent]");
-      const storedConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
-      if (!banner) return;
-
-      if (!storedConsent) {
-        banner.classList.add("is-visible");
-      }
-
-      document.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
-        setMarketingConsent(true);
-        banner.classList.remove("is-visible");
-        trackMetaEvent("PageView", { content_name: "Schwaiger Stil-Kompass" });
-      });
-
-      document.querySelector("[data-cookie-decline]")?.addEventListener("click", () => {
-        setMarketingConsent(false);
-        banner.classList.remove("is-visible");
-      });
-
-      if (getMarketingConsent()) {
-        trackMetaEvent("PageView", { content_name: "Schwaiger Stil-Kompass" });
-      }
+    function initPageTracking() {
+      trackMetaEvent("PageView", { content_name: "Schwaiger Stil-Kompass" });
     }
 
     const questions = [
@@ -3179,7 +3065,7 @@
     document.querySelector("[data-lead-form]").addEventListener("submit", submitLead);
 
     renderQuestion();
-    initCookieConsent();
+    initPageTracking();
 
     if (window.location.hash === "#quiz") {
       showScreen("quiz");
