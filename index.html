@@ -2175,7 +2175,7 @@
           <p class="eyebrow">Kostenloser Stil-Kompass</p>
           <h1 id="start-title">Welcher Wohnstil passt wirklich zu Ihnen?</h1>
           <div class="landing-copy">
-            <p>Beantworten Sie fünf kurze Fragen und erhalten Sie danach Ihr persönliches Stilprofil von Schwaiger.</p>
+            <p>Beantworten Sie drei kurze Fragen und erhalten Sie danach Ihr persönliches Stilprofil von Schwaiger.</p>
             <p>Für Küchen, Wohnräume, Bäder oder ein ganzes Wohnkonzept, das zu Ihrem Leben passt.</p>
           </div>
           <div class="micro-proof" aria-label="Kurzvertrauen">
@@ -2287,7 +2287,7 @@
             <div class="logo-text">Stil-Kompass</div>
           </div>
           <div class="progress-wrap">
-            <span class="progress-label" data-progress-label>Frage 1 von 5</span>
+            <span class="progress-label" data-progress-label>Frage 1 von 3</span>
             <div class="progress-track">
               <div class="progress-fill" data-progress-fill></div>
             </div>
@@ -2585,36 +2585,6 @@
           { label: "Wir möchten einzelne Räume endlich stimmig machen", text: "Der Raum funktioniert, aber die Wirkung soll besser werden.", archetype: "hosting", score: 2, fit: 2, situation: "raum_stimmig_machen" },
           { label: "Wir sammeln erst Ideen und möchten unseren Stil besser verstehen", text: "Noch ohne konkreten Plan, aber mit Lust auf Orientierung.", archetype: "craft", score: 1, fit: 0, situation: "ideen_sammeln" }
         ]
-      },
-      {
-        kicker: "Der Rahmen",
-        title: "Welcher Investitionsrahmen passt am ehesten zu Ihrem Vorhaben?",
-        help: "Eine ehrliche Einordnung hilft, damit Schwaiger Sie passend beraten kann.",
-        image: "quiz-assets/detail-kueche.jpg",
-        alt: "Küche mit Insel und klarer Planung",
-        caption: "Gute Planung braucht einen Rahmen, in dem Qualität und Anspruch zusammenpassen.",
-        options: [
-          { label: "Ab 10.000 Euro für einen Wohnbereich", text: "Für Wohnzimmer, Essbereich oder eine einzelne Raumlösung.", archetype: "hosting", score: 1, fit: 2, budget: "ab_10000_wohnbereich" },
-          { label: "Ab 15.000 Euro für ein Bad", text: "Für eine hochwertige Badlösung mit klarer Planung.", archetype: "clear", score: 1, fit: 2, budget: "ab_15000_bad" },
-          { label: "Ab 25.000 Euro für eine Küche", text: "Für eine Küche, die Planung, Materialien und Alltag zusammenbringt.", archetype: "craft", score: 2, fit: 4, budget: "ab_25000_kueche" },
-          { label: "Ab 75.000 Euro für mehrere Räume oder eine ganze Wohnung", text: "Für ein größeres Wohnkonzept mit rotem Faden.", archetype: "clear", score: 2, fit: 5, budget: "ab_75000_gesamt" },
-          { label: "Darunter oder nichts davon", text: "Dann nehmen Sie Ihr Stilprofil als Orientierung mit.", archetype: "quiet", score: 0, fit: -3, budget: "darunter_oder_nichts_davon" }
-        ]
-      },
-      {
-        kicker: "Nägel mit Köpfen.",
-        title: "Wann soll Ihr Projekt ungefähr starten?",
-        help: "Ihr Ergebnis funktioniert sofort als Stilprofil. Für eine persönliche Rückmeldung hilft das Timing.",
-        image: "quiz-assets/klar-geplant.jpg",
-        alt: "Klar geplanter Wohn- und Küchenraum",
-        caption: "Der beste nächste Schritt ist oft nicht groß. Nur konkret.",
-        options: [
-          { label: "In den nächsten 3 Monaten", text: "Dann ist ein persönlicher nächster Schritt besonders sinnvoll.", archetype: "clear", score: 2, fit: 4, timeline: "0_3_monate" },
-          { label: "In 3 bis 6 Monaten", text: "Genug Zeit, um Stil, Material und Planung sauber zu sortieren.", archetype: "craft", score: 2, fit: 3, timeline: "3_6_monate" },
-          { label: "In 6 bis 12 Monaten", text: "Eine gute Phase, um die Richtung früh zu klären.", archetype: "quiet", score: 1, fit: 2, timeline: "6_12_monate" },
-          { label: "Später", text: "Dann ist Ihr Profil eine gute Grundlage für später.", archetype: "hosting", score: 1, fit: 0, timeline: "spaeter" },
-          { label: "Noch nicht geplant", text: "Dann nehmen Sie die Einschätzung als Inspiration und erste Orientierung mit.", archetype: "quiet", score: 0, fit: -1, timeline: "noch_nicht_geplant" }
-        ]
       }
     ];
 
@@ -2904,7 +2874,7 @@
       const situation = selected.find((option) => option.situation)?.situation || "unknown";
       const budget = selected.find((option) => option.budget)?.budget || "unknown";
       const timeline = selected.find((option) => option.timeline)?.timeline || "unknown";
-      const band = fit >= 13 ? "A" : fit >= 8 ? "B" : fit >= 4 ? "C" : "D";
+      const band = fit >= 8 ? "A" : fit >= 5 ? "B" : fit >= 2 ? "C" : "D";
       return { winner, fit, score, band, stage, value, situation, budget, timeline, archetypes };
     }
 
