@@ -694,6 +694,63 @@
       gap: 12px;
     }
 
+    .result-teaser-panel {
+      display: grid;
+      gap: 10px;
+      max-width: 650px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+
+    .result-teaser-panel h3 {
+      color: var(--black);
+      font-family: "Raleway", sans-serif;
+      font-size: clamp(1.08rem, 2vw, 1.32rem);
+      font-weight: 650;
+      line-height: 1.12;
+    }
+
+    .result-dna-preview,
+    .result-outcome {
+      color: var(--readable);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.62;
+    }
+
+    .result-outcome {
+      border-left: 3px solid var(--accent);
+      padding-left: 13px;
+      color: var(--readable-strong);
+    }
+
+    .profile-gate-stack {
+      display: grid;
+      gap: 18px;
+      position: relative;
+    }
+
+    .profile-detail.blurred {
+      filter: blur(6px) saturate(0.7);
+      pointer-events: none;
+      user-select: none;
+      position: relative;
+      margin-top: -72px;
+      padding-top: 90px;
+    }
+
+    #result.profile-unlocked .profile-detail.blurred {
+      filter: none;
+      pointer-events: auto;
+      user-select: auto;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    #result.profile-unlocked .lead-gate {
+      display: none;
+    }
+
     .advice-card {
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -1232,6 +1289,10 @@
 
       .form-submit {
         justify-self: stretch;
+        min-height: 64px;
+        padding-inline: 14px;
+        font-size: 0.92rem;
+        line-height: 1.18;
       }
 
       .button {
@@ -1595,22 +1656,14 @@
       font-weight: 650;
     }
 
-    .lead-gate,
     .profile-view {
       display: grid;
       gap: 18px;
     }
 
-    .profile-view {
-      display: none;
-    }
-
-    #result.profile-unlocked .lead-gate {
-      display: none;
-    }
-
-    #result.profile-unlocked .profile-view {
+    .lead-gate {
       display: grid;
+      gap: 18px;
     }
 
     .result-layout {
@@ -2252,124 +2305,128 @@
 
         <div class="result-layout">
           <div class="result-copy">
-            <section class="lead-gate lead-form-card" aria-labelledby="lead-form-title">
-              <h3 id="lead-form-title">Wie schön, dass Sie den Stil-Kompass gemacht haben.</h3>
-              <p>Ihr Stilprofil ist bereit. Hinterlassen Sie kurz Ihre Daten, dann schicken wir Ihre Antworten an Schwaiger. Direkt danach sehen Sie Ihr Kurzprofil. Die genauere Einordnung zu Material, Planung und nächsten Schritten bespricht Schwaiger persönlich im 15-Minuten-Gespräch mit Ihnen.</p>
-              <div class="result-proof">
-                <span class="trust-badge">Persönliche Rückmeldung</span>
-                <span class="trust-badge">Kostenlos und unverbindlich</span>
-                <span class="trust-badge">Schwaiger Zell am See</span>
-              </div>
-              <figure class="lead-gate-image">
-                <img src="quiz-assets/moment-wohnen.jpg" alt="Ruhiger Wohnraum mit Sofa und warmem Licht" data-gate-image>
-                <figcaption data-gate-caption>Dieses Bild greift Ihre Stilrichtung auf. Schwaiger schaut persönlich auf Ihr Stilprofil und Ihre Antworten.</figcaption>
-              </figure>
-              <form class="lead-form" data-lead-form>
-                <div class="form-field">
-                  <label for="lead-name">Name</label>
-                  <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required>
-                </div>
-                <div class="form-field">
-                  <label for="lead-email">E-Mail</label>
-                  <input id="lead-email" name="email" type="email" autocomplete="email" placeholder="name@beispiel.at" required>
-                </div>
-                <div class="form-field">
-                  <label for="lead-phone">Telefonnummer</label>
-                  <input id="lead-phone" name="phone" type="tel" autocomplete="tel" placeholder="+43 ..." required>
-                </div>
-                <div class="form-field">
-                  <label for="lead-postal-code">Postleitzahl</label>
-                  <input id="lead-postal-code" name="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="z. B. 5700" pattern="[0-9]{4}" maxlength="4" required>
-                </div>
-                <label class="form-consent" for="lead-consent">
-                  <input id="lead-consent" name="consent" type="checkbox" required>
-                  <span>Ich bin einverstanden, dass Küchen &amp; Wohnstudio Schwaiger meine Angaben zur persönlichen Rückmeldung zu meinem Stilprofil verwendet.</span>
-                </label>
-                <p class="form-note">Ihr Stilprofil wird mitgesendet, damit das Gespräch direkt persönlicher und konkreter starten kann.</p>
-                <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-                <button class="button dark form-submit" type="submit">Mein Stilprofil an Schwaiger senden</button>
-              </form>
-            </section>
-
             <section class="profile-view" aria-live="polite">
               <div class="profile-hero">
                 <div>
                   <p class="question-kicker" data-result-kicker>Daheim zum Wohlfühlen</p>
                   <h2 id="result-title" data-result-title>Ganz schön ruhig.</h2>
                   <p class="result-lede" data-result-lede></p>
+                  <div class="result-teaser-panel">
+                    <h3>Ihre Stil-DNA</h3>
+                    <p class="result-dna-preview" data-result-dna-preview></p>
+                    <p class="result-outcome" data-result-outcome></p>
+                  </div>
                 </div>
                 <figure class="result-image">
                   <img src="quiz-assets/moment-wohnen.jpg" alt="Wohnraum mit Sofa und warmem Licht" data-result-image>
                 </figure>
               </div>
 
-              <div class="result-advice" aria-label="Ihre persönliche Stilberatung">
-                <details class="advice-card" open>
-                  <summary>Ihre Stil-DNA</summary>
-                  <div class="advice-content">
-                    <p data-result-dna></p>
+              <div class="profile-gate-stack">
+                <section class="lead-gate lead-form-card" aria-labelledby="lead-form-title">
+                  <h3 id="lead-form-title">Ihr vollständiges Stilprofil ist bereit.</h3>
+                  <p>Name und E-Mail genügen. Danach wird das vollständige Profil lesbar und Schwaiger kann Ihre Antworten persönlich einordnen.</p>
+                  <div class="result-proof">
+                    <span class="trust-badge">Persönliche Rückmeldung</span>
+                    <span class="trust-badge">Kostenlos und unverbindlich</span>
+                    <span class="trust-badge">Schwaiger Zell am See</span>
                   </div>
-                </details>
-                <details class="advice-card" open>
-                  <summary>Das sollten Sie wählen</summary>
-                  <div class="advice-content">
-                    <ul data-result-buy></ul>
-                  </div>
-                </details>
-              </div>
+                  <form class="lead-form" data-lead-form>
+                    <div class="form-field">
+                      <label for="lead-name">Name</label>
+                      <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required>
+                    </div>
+                    <div class="form-field">
+                      <label for="lead-email">E-Mail</label>
+                      <input id="lead-email" name="email" type="email" autocomplete="email" placeholder="name@beispiel.at" required>
+                    </div>
+                    <label class="form-consent" for="lead-consent">
+                      <input id="lead-consent" name="consent" type="checkbox" required>
+                      <span>Ich bin einverstanden, dass Schwaiger meine Angaben zur persönlichen Rückmeldung zu meinem Stilprofil verwendet.</span>
+                    </label>
+                    <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+                    <button class="button dark form-submit" type="submit">Vollständiges Stilprofil &amp; Schwaiger-Beratung freischalten</button>
+                  </form>
+                </section>
 
-              <section class="locked-detail-section" aria-label="Persönliche Details im Gespräch">
-                <div class="locked-detail-head">
-                  <h3>Die Details schauen wir uns persönlich mit Ihnen an.</h3>
-                  <p>Ein erster Teil Ihres Stilprofils ist freigeschaltet. Die genauere Einordnung zu Material, Wirkung, Planung und möglichen Stolperfallen bespricht das Schwaiger-Team persönlich mit Ihnen.</p>
+                <div class="profile-detail blurred">
+                  <div class="result-advice" aria-label="Ihre persönliche Stilberatung">
+                    <details class="advice-card" open>
+                      <summary>Ihre Stil-DNA im Detail</summary>
+                      <div class="advice-content">
+                        <p data-result-dna-full></p>
+                      </div>
+                    </details>
+                    <details class="advice-card" open>
+                      <summary>Das sollten Sie wählen</summary>
+                      <div class="advice-content">
+                        <ul data-result-buy></ul>
+                      </div>
+                    </details>
+                  </div>
+
+                  <section class="locked-detail-section" aria-label="Persönliche Details im Gespräch">
+                    <div class="locked-detail-head">
+                      <h3>Die Details schauen wir uns persönlich mit Ihnen an.</h3>
+                      <p>Die genauere Einordnung zu Material, Wirkung, Planung und möglichen Stolperfallen bespricht das Schwaiger-Team persönlich mit Ihnen.</p>
+                    </div>
+                    <div class="locked-gallery">
+                      <article class="locked-card">
+                        <img src="quiz-assets/detail-kueche.jpg" alt="" data-locked-image="material">
+                        <div class="locked-card-content">
+                          <span class="locked-label">Im Gespräch</span>
+                          <h4>Materialrichtung</h4>
+                          <p class="locked-blur" data-result-material></p>
+                        </div>
+                      </article>
+                      <article class="locked-card">
+                        <img src="quiz-assets/raum-dach.jpg" alt="" data-locked-image="watchout">
+                        <div class="locked-card-content">
+                          <span class="locked-label">Im Gespräch</span>
+                          <h4>Darauf achten</h4>
+                          <p class="locked-blur" data-result-watchout></p>
+                        </div>
+                      </article>
+                      <article class="locked-card">
+                        <img src="quiz-assets/material-aussicht.jpg" alt="" data-locked-image="avoid">
+                        <div class="locked-card-content">
+                          <span class="locked-label">Im Gespräch</span>
+                          <h4>Davon eher fernbleiben</h4>
+                          <ul class="locked-blur" data-result-avoid></ul>
+                        </div>
+                      </article>
+                      <article class="locked-card">
+                        <img src="quiz-assets/moment-wohnen.jpg" alt="" data-locked-image="why">
+                        <div class="locked-card-content">
+                          <span class="locked-label">Im Gespräch</span>
+                          <h4>Warum das zu Ihnen passt</h4>
+                          <p class="locked-blur" data-result-why></p>
+                        </div>
+                      </article>
+                      <article class="locked-card">
+                        <img src="quiz-assets/klar-geplant.jpg" alt="" data-locked-image="next">
+                        <div class="locked-card-content">
+                          <span class="locked-label">Im Gespräch</span>
+                          <h4>Nächster Schritt</h4>
+                          <p class="locked-blur" data-result-next></p>
+                        </div>
+                      </article>
+                      <article class="locked-card">
+                        <img src="quiz-assets/klar-geplant.jpg" alt="" data-locked-image="decisions">
+                        <div class="locked-card-content">
+                          <span class="locked-label">Im Gespräch</span>
+                          <h4>Ihre nächsten Entscheidungen</h4>
+                          <ol class="locked-blur" data-result-decisions></ol>
+                        </div>
+                      </article>
+                    </div>
+                    <div class="call-note">
+                      <strong>Ein Mitarbeiter von Schwaiger meldet sich bei Ihnen.</strong>
+                      <p>Wir gehen Ihr Stilprofil in Ruhe mit Ihnen durch und schauen gemeinsam, was für Ihr Zuhause wirklich Sinn macht: Material, Raumwirkung, nächster Schritt und der passende Rahmen.</p>
+                    </div>
+                  </section>
                 </div>
-                <div class="locked-gallery">
-                  <article class="locked-card">
-                    <img src="quiz-assets/detail-kueche.jpg" alt="" data-locked-image="material">
-                    <div class="locked-card-content">
-                      <span class="locked-label">Im Gespräch</span>
-                      <h4>Materialrichtung</h4>
-                      <p class="locked-blur" data-result-material></p>
-                    </div>
-                  </article>
-                  <article class="locked-card">
-                    <img src="quiz-assets/raum-dach.jpg" alt="" data-locked-image="watchout">
-                    <div class="locked-card-content">
-                      <span class="locked-label">Im Gespräch</span>
-                      <h4>Darauf achten</h4>
-                      <p class="locked-blur" data-result-watchout></p>
-                    </div>
-                  </article>
-                  <article class="locked-card">
-                    <img src="quiz-assets/material-aussicht.jpg" alt="" data-locked-image="avoid">
-                    <div class="locked-card-content">
-                      <span class="locked-label">Im Gespräch</span>
-                      <h4>Davon eher fernbleiben</h4>
-                      <ul class="locked-blur" data-result-avoid></ul>
-                    </div>
-                  </article>
-                  <article class="locked-card">
-                    <img src="quiz-assets/moment-wohnen.jpg" alt="" data-locked-image="outcome">
-                    <div class="locked-card-content">
-                      <span class="locked-label">Im Gespräch</span>
-                      <h4>So sollte es am Ende wirken</h4>
-                      <p class="locked-blur" data-result-outcome></p>
-                    </div>
-                  </article>
-                  <article class="locked-card">
-                    <img src="quiz-assets/klar-geplant.jpg" alt="" data-locked-image="decisions">
-                    <div class="locked-card-content">
-                      <span class="locked-label">Im Gespräch</span>
-                      <h4>Ihre nächsten Entscheidungen</h4>
-                      <ol class="locked-blur" data-result-decisions></ol>
-                    </div>
-                  </article>
-                </div>
-                <div class="call-note">
-                  <strong>Ein Mitarbeiter von Schwaiger meldet sich bei Ihnen.</strong>
-                  <p>Wir gehen Ihr Stilprofil in Ruhe mit Ihnen durch und schauen gemeinsam, was für Ihr Zuhause wirklich Sinn macht: Material, Raumwirkung, nächster Schritt und der passende Rahmen.</p>
-                </div>
-              </section>
+              </div>
 
               <div class="result-actions">
                 <button class="button secondary" type="button" data-back-to-quiz>Antworten anpassen</button>
@@ -2872,10 +2929,25 @@
       }
     }
 
+    function splitDnaText(text = "") {
+      const words = text.trim().split(/\s+/).filter(Boolean);
+      const sentences = text.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) || [];
+      let preview = sentences.slice(0, 2).join(" ").trim();
+      if (!preview || preview.split(/\s+/).length > 80) {
+        preview = words.slice(0, 80).join(" ").trim();
+      }
+      const rest = text.slice(preview.length).trim();
+      return {
+        preview,
+        full: rest || text
+      };
+    }
+
     function renderResult(forceType) {
       const state = forceType ? { winner: forceType, fit: 10, score: 12, band: "B", stage: "preview", value: "preview", situation: "preview", budget: "preview", timeline: "preview", archetypes: {} } : classify();
       const result = results[state.winner];
       const fitMeta = getFitMeta(state.band);
+      const dna = splitDnaText(result.dna);
       latestResultState = state;
       latestResultProfile = result;
       setText("[data-result-kicker]", result.kicker);
@@ -2885,7 +2957,8 @@
       setText("[data-result-watchout]", result.watchout);
       setText("[data-result-next]", result.next);
       setText("[data-result-why]", result.why);
-      setText("[data-result-dna]", result.dna);
+      setText("[data-result-dna-preview]", dna.preview);
+      setText("[data-result-dna-full]", dna.full);
       setText("[data-result-outcome]", result.outcome);
       renderItems("[data-result-buy]", result.buy);
       renderItems("[data-result-avoid]", result.avoid);
@@ -2895,9 +2968,13 @@
       resultImage.alt = result.alt;
       const gateImage = document.querySelector("[data-gate-image]");
       const gateCaption = document.querySelector("[data-gate-caption]");
-      gateImage.src = result.image;
-      gateImage.alt = result.alt;
-      gateCaption.textContent = result.gateCaption;
+      if (gateImage) {
+        gateImage.src = result.image;
+        gateImage.alt = result.alt;
+      }
+      if (gateCaption) {
+        gateCaption.textContent = result.gateCaption;
+      }
 
       const internal = document.querySelector("[data-internal-summary]");
       const chips = document.querySelector("[data-internal-chips]");
@@ -2981,7 +3058,12 @@
     }
 
     function getFormValues(formData) {
-      return Object.fromEntries([...formData.entries()].map(([key, value]) => [key, typeof value === "string" ? value.trim() : value]));
+      const values = Object.fromEntries([...formData.entries()].map(([key, value]) => [key, typeof value === "string" ? value.trim() : value]));
+      return {
+        phone: "",
+        postalCode: "",
+        ...values
+      };
     }
 
     async function submitLead(event) {
