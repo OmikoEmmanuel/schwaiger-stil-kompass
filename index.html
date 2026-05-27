@@ -675,6 +675,10 @@
       overflow-wrap: anywhere;
     }
 
+    .result-style-name {
+      font-weight: 800;
+    }
+
     .result-lede {
       color: var(--readable);
       font-size: clamp(1rem, 1.25vw, 1.12rem);
@@ -731,20 +735,30 @@
     }
 
     .profile-detail.blurred {
-      filter: blur(6px) saturate(0.7);
-      pointer-events: none;
       user-select: none;
       position: relative;
       margin-top: -72px;
       padding-top: 90px;
     }
 
+    .profile-detail.blurred .locked-card img,
+    .profile-detail.blurred .locked-blur {
+      filter: blur(6px) saturate(0.7);
+      pointer-events: none;
+      user-select: none;
+    }
+
     #result.profile-unlocked .profile-detail.blurred {
-      filter: none;
-      pointer-events: auto;
       user-select: auto;
       margin-top: 0;
       padding-top: 0;
+    }
+
+    #result.profile-unlocked .profile-detail.blurred .locked-card img,
+    #result.profile-unlocked .profile-detail.blurred .locked-blur {
+      filter: none;
+      pointer-events: auto;
+      user-select: auto;
     }
 
     #result.profile-unlocked .lead-gate {
@@ -937,6 +951,13 @@
       filter: blur(5px);
       user-select: none;
       pointer-events: none;
+    }
+
+    #result.profile-unlocked .locked-blur {
+      max-height: none;
+      overflow: visible;
+      user-select: auto;
+      pointer-events: auto;
     }
 
     .locked-blur ul,
@@ -2309,13 +2330,8 @@
               <div class="profile-hero">
                 <div>
                   <p class="question-kicker" data-result-kicker>Daheim zum Wohlfühlen</p>
-                  <h2 id="result-title" data-result-title>Ganz schön ruhig.</h2>
+                  <h2 id="result-title" data-result-title><span>Ganz schön ruhig.</span></h2>
                   <p class="result-lede" data-result-lede></p>
-                  <div class="result-teaser-panel">
-                    <h3>Ihre Stil-DNA</h3>
-                    <p class="result-dna-preview" data-result-dna-preview></p>
-                    <p class="result-outcome" data-result-outcome></p>
-                  </div>
                 </div>
                 <figure class="result-image">
                   <img src="quiz-assets/moment-wohnen.jpg" alt="Wohnraum mit Sofa und warmem Licht" data-result-image>
@@ -2323,40 +2339,14 @@
               </div>
 
               <div class="profile-gate-stack">
-                <section class="lead-gate lead-form-card" aria-labelledby="lead-form-title">
-                  <h3 id="lead-form-title">Ihr vollständiges Stilprofil ist bereit.</h3>
-                  <p>Name und E-Mail genügen. Danach wird das vollständige Profil lesbar und Schwaiger kann Ihre Antworten persönlich einordnen.</p>
-                  <div class="result-proof">
-                    <span class="trust-badge">Persönliche Rückmeldung</span>
-                    <span class="trust-badge">Kostenlos und unverbindlich</span>
-                    <span class="trust-badge">Schwaiger Zell am See</span>
-                  </div>
-                  <form class="lead-form" data-lead-form>
-                    <div class="form-field">
-                      <label for="lead-name">Name</label>
-                      <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required>
-                    </div>
-                    <div class="form-field">
-                      <label for="lead-email">E-Mail</label>
-                      <input id="lead-email" name="email" type="email" autocomplete="email" placeholder="name@beispiel.at" required>
-                    </div>
-                    <label class="form-consent" for="lead-consent">
-                      <input id="lead-consent" name="consent" type="checkbox" required>
-                      <span>Ich bin einverstanden, dass Schwaiger meine Angaben zur persönlichen Rückmeldung zu meinem Stilprofil verwendet.</span>
-                    </label>
-                    <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-                    <button class="button dark form-submit" type="submit">Vollständiges Stilprofil &amp; Schwaiger-Beratung freischalten</button>
-                  </form>
-                </section>
+                <div class="result-teaser-panel">
+                  <h3>Ihre Stil-DNA</h3>
+                  <p class="result-dna-preview" data-result-dna-preview></p>
+                  <p class="result-outcome" data-result-outcome></p>
+                </div>
 
                 <div class="profile-detail blurred">
                   <div class="result-advice" aria-label="Ihre persönliche Stilberatung">
-                    <details class="advice-card" open>
-                      <summary>Ihre Stil-DNA im Detail</summary>
-                      <div class="advice-content">
-                        <p data-result-dna-full></p>
-                      </div>
-                    </details>
                     <details class="advice-card" open>
                       <summary>Das sollten Sie wählen</summary>
                       <div class="advice-content">
@@ -2420,6 +2410,39 @@
                         </div>
                       </article>
                     </div>
+                    <section class="lead-gate lead-form-card" aria-labelledby="lead-form-title">
+                      <h3 id="lead-form-title">Ihr vollständiges Stilprofil ist bereit.</h3>
+                      <p>Mit Ihren Kontaktdaten kann Schwaiger Ihre Antworten persönlich einordnen. Direkt danach wird das vollständige Profil lesbar.</p>
+                      <div class="result-proof">
+                        <span class="trust-badge">Persönliche Rückmeldung</span>
+                        <span class="trust-badge">Kostenlos und unverbindlich</span>
+                        <span class="trust-badge">Schwaiger Zell am See</span>
+                      </div>
+                      <form class="lead-form" data-lead-form>
+                        <div class="form-field">
+                          <label for="lead-name">Name</label>
+                          <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="lead-email">E-Mail</label>
+                          <input id="lead-email" name="email" type="email" autocomplete="email" placeholder="name@beispiel.at" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="lead-phone">Telefonnummer</label>
+                          <input id="lead-phone" name="phone" type="tel" autocomplete="tel" placeholder="+43 ..." required>
+                        </div>
+                        <div class="form-field">
+                          <label for="lead-postal-code">Postleitzahl</label>
+                          <input id="lead-postal-code" name="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="z. B. 5700" pattern="[0-9]{4}" maxlength="4" required>
+                        </div>
+                        <label class="form-consent" for="lead-consent">
+                          <input id="lead-consent" name="consent" type="checkbox" required>
+                          <span>Ich bin einverstanden, dass Schwaiger meine Angaben zur persönlichen Rückmeldung zu meinem Stilprofil verwendet.</span>
+                        </label>
+                        <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+                        <button class="button dark form-submit" type="submit">Vollständiges Stilprofil &amp; Schwaiger-Beratung freischalten</button>
+                      </form>
+                    </section>
                     <div class="call-note">
                       <strong>Ein Mitarbeiter von Schwaiger meldet sich bei Ihnen.</strong>
                       <p>Wir gehen Ihr Stilprofil in Ruhe mit Ihnen durch und schauen gemeinsam, was für Ihr Zuhause wirklich Sinn macht: Material, Raumwirkung, nächster Schritt und der passende Rahmen.</p>
@@ -2929,6 +2952,23 @@
       }
     }
 
+    function setResultTitle(value = "") {
+      const element = document.querySelector("[data-result-title]");
+      if (!element) return;
+      const match = value.match(/^(Ihr Stil:\s*)(.+)$/);
+      element.textContent = "";
+      if (!match) {
+        element.textContent = value;
+        return;
+      }
+      const prefix = document.createElement("span");
+      const styleName = document.createElement("span");
+      prefix.textContent = match[1];
+      styleName.textContent = match[2];
+      styleName.className = "result-style-name";
+      element.append(prefix, styleName);
+    }
+
     function splitDnaText(text = "") {
       const words = text.trim().split(/\s+/).filter(Boolean);
       const sentences = text.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) || [];
@@ -2951,7 +2991,7 @@
       latestResultState = state;
       latestResultProfile = result;
       setText("[data-result-kicker]", result.kicker);
-      setText("[data-result-title]", result.title);
+      setResultTitle(result.title);
       setText("[data-result-lede]", result.lede);
       setText("[data-result-material]", result.material);
       setText("[data-result-watchout]", result.watchout);
